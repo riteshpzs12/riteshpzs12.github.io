@@ -1,0 +1,13 @@
+# Created by Ritesh Chatterjee,visualstudio
+
+### macOS ###
+
+*.vs
+*.DS_Store
+*.sln
+
+
+# Generated Files #
+[Dd]ebug/
+[Bb]in/
+[Oo]bj/
