@@ -17,5 +17,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ShinySensor\" />
+    <Folder Include="Models\" />
+    <Folder Include="ViewModel\" />
+    <Folder Include="ContainerHelper\" />
+    <Folder Include="Views\" />
+    <Folder Include="ViewModel\FirstPage\" />
   </ItemGroup>
 </Project>

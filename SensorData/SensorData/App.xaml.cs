@@ -1,4 +1,5 @@
 ﻿using System;
+using SensorData.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,7 @@ namespace SensorData
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new FirstPage();
         }
 
         protected override void OnStart()
