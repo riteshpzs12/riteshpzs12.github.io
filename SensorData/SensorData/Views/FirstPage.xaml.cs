@@ -21,9 +21,15 @@ namespace SensorData.Views
             set { BindingContext = value; }
         }
 
-        void Button_Clicked(System.Object sender, System.EventArgs e)
+        void Entry_Focused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
         {
-            App.Current.MainPage.DisplayAlert("dasda", "adsasdas", "dasdasd");
+            ViewModel.StartCapture();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            ViewModel.DisposeSubscribers();
         }
     }
 }

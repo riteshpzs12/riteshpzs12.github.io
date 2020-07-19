@@ -23,8 +23,8 @@ namespace SensorData.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
             Shiny.iOSShinyHost.Init(new ShinySensor.SensorStartup());
+            LoadApplication(new App());
             return base.FinishedLaunching(app, options);
         }
     }

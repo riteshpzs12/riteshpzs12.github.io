@@ -1,6 +1,8 @@
 ﻿using System;
 using SensorData.ContainerHelper;
+using SensorData.ShinySensor;
 using SensorData.ViewModel.FirstPage;
+using Shiny;
 
 namespace SensorData.Views
 {
@@ -10,6 +12,7 @@ namespace SensorData.Views
         {
             IIoCContainer container = new IoCContainer();
             container.Register<IBaseViewModel, FirstPageViewModel>();
+            container.Register<ShinyStartup, SensorStartup>();
             return container;
         }
     }

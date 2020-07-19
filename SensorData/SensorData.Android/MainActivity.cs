@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Shiny;
+using Plugin.Fingerprint;
 
 namespace SensorData.Droid
 {
@@ -17,7 +18,7 @@ namespace SensorData.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
+            CrossFingerprint.SetCurrentActivityResolver(() => this);
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
