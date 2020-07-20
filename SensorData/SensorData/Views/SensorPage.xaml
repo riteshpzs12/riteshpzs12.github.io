@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SensorData.Views.SensorPage">
     <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+            <Label x:Name="Compass"></Label>
+            <Label x:Name="Gyro"></Label>
+            <Label x:Name="Proximity"></Label>
+            <Label x:Name="Heart"></Label>
+            <Label x:Name="Accel"></Label>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

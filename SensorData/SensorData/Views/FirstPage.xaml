@@ -3,9 +3,9 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Orientation="Vertical" Spacing="10">
             <Entry Focused="Entry_Focused" Placeholder="Enter Ur Name" Text="{Binding Uname}"></Entry>
-            <Entry Placeholder="Enter 9Ib_ha@Z@q as Password" Text="{Binding PassWord}" IsPassword="True" Focused="Entry_Focused"></Entry>
-            <Button Text="Login normally" HorizontalOptions="Center" VerticalOptions="Center" Command="{Binding LoginCommand}"/>
-            <Button Text="Login with Magic" HorizontalOptions="Center" VerticalOptions="Center" Command="{Binding FingerPrintCommand}"/>
+            <Entry Placeholder="Enter Sensor@123 as Password" Text="{Binding PassWord}" IsPassword="True" Focused="Entry_Focused"></Entry>
+            <Button Text="Login normally" VerticalOptions="Center" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand"/>
+            <Button Text="Login with Magic" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Command="{Binding FingerPrintCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

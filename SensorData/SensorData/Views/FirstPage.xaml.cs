@@ -31,5 +31,11 @@ namespace SensorData.Views
             base.OnDisappearing();
             ViewModel.DisposeSubscribers();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.StartOver();
+        }
     }
 }
