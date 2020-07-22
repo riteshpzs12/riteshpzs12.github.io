@@ -7,6 +7,7 @@
             <Label x:Name="Proximity"></Label>
             <Label x:Name="Heart"></Label>
             <Label x:Name="Accel"></Label>
+            <Button HorizontalOptions="Center" Clicked="Button_Clicked" Text="Send Data"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
