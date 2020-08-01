@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SensorData\SensorData.csproj">
-      <Project>{77920432-967C-4FF9-AAFD-B74D4C932750}</Project>
+      <Project>{D368A680-89F8-415C-8DAB-297C9219ACD2}</Project>
       <Name>SensorData</Name>
     </ProjectReference>
   </ItemGroup>
