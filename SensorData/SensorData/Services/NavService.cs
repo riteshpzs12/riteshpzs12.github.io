@@ -1,0 +1,35 @@
+﻿using System.Threading.Tasks;
+using Xamarin.Forms;
+
+namespace SensorData.Services
+{
+    public class NavService : INavService
+    {
+        public NavService()
+        {
+        }
+
+        public void Goto(Page page)
+        {
+            var t = App.Current.MainPage.Navigation.NavigationStack.Count;
+            if (t>0)
+            {
+                if (App.Current.MainPage.Navigation.NavigationStack[t] != page)
+                    App.Current.MainPage.Navigation.PushAsync(page);
+            }
+        }
+
+        public void ShowDialog(string title, string description)
+        {
+            if (App.Current.MainPage != null)
+                App.Current.MainPage.DisplayAlert(title, description, "Ok");
+        }
+
+        public async Task<bool> ShowInteractiveDialogAsync(string title, string description, string positiveTetxt = "Yes", string negativText = "no")
+        {
+            if (App.Current.MainPage != null)
+                return await App.Current.MainPage.DisplayAlert(title, description, positiveTetxt, negativText);
+            return false;
+        }
+    }
+}

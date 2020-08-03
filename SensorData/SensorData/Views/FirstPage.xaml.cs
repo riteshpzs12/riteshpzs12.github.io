@@ -35,6 +35,8 @@ namespace SensorData.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            Username.Placeholder = "Enter Ur Name";
+            Password.Placeholder = "Enter Sensor@123 as Password";
             ViewModel.StartOver();
         }
     }

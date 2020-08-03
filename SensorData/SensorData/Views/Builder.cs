@@ -11,6 +11,7 @@ namespace SensorData.Views
             IIoCContainer container = new IoCContainer();
             container.Register<IBaseViewModel, FirstPageViewModel>();
             container.Register<ISensorService, SensorService>();
+            container.Register<INavService, NavService>();
             return container;
         }
     }

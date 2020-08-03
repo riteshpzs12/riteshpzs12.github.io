@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SensorData.Models;
@@ -13,9 +12,12 @@ namespace SensorData.ViewModel.FirstPage
     {
         ISensorService _sensorService;
         MasterDataModel masterDataModel;
-        public FirstPageViewModel(ISensorService sensorService)
+        INavService _navService;
+
+        public FirstPageViewModel(ISensorService sensorService, INavService navService)
         {
             _sensorService = sensorService;
+            _navService = navService;
 
             LoginCommand = new Command(Login);
             FingerPrintCommand = new Command(FingerPrintLoginAsync);
