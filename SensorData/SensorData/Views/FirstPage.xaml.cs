@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using SensorData.ContainerHelper;
+﻿using SensorData.ContainerHelper;
 using SensorData.ViewModel.FirstPage;
 using Xamarin.Forms;
 

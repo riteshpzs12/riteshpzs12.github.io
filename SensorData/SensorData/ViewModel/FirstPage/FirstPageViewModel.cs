@@ -3,7 +3,6 @@ using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SensorData.Models;
 using SensorData.Services;
-using SensorData.Views;
 using Xamarin.Forms;
 
 namespace SensorData.ViewModel.FirstPage
@@ -59,7 +58,7 @@ namespace SensorData.ViewModel.FirstPage
             if (PassWord == "Sensor@123")
             {
                 DisposeSubscribers();
-                await App.Current.MainPage.Navigation.PushAsync(new NavigationPage(new SensorPage(masterDataModel)));
+                await App.Current.MainPage.Navigation.PushAsync(new NavigationPage(new SensorData.Views.SensorPage(masterDataModel)));
             }
         }
 

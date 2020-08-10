@@ -1,16 +1,14 @@
 ﻿using SensorData.ContainerHelper;
 using SensorData.Services;
-using SensorData.ViewModel.FirstPage;
 
-namespace SensorData.Views
+namespace SensorData.ViewModel.SensorPage
 {
     public static class Builder
     {
         public static IIoCContainer Build()
         {
             IIoCContainer container = new IoCContainer();
-            container.Register<IBaseViewModel, FirstPageViewModel>();
-            container.Register<ISensorService, SensorService>();
+            container.Register<IBaseViewModel, SensorPageViewModel>();
             container.Register<INavService, NavService>();
             return container;
         }

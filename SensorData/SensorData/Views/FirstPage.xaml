@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SensorData.Views.FirstPage">
     <ContentPage.Content>
         <Grid>
-            <Label Text="Welcome to our small fun App." FontSize="Title" Grid.Row="0"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Label Text="Welcome to our small fun App" FontSize="Title" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center"/>
             <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Orientation="Vertical" Spacing="10" Grid.Row="1">
                 <Entry x:Name="Username" Focused="Entry_Focused" Placeholder="Enter Ur Name" Text="{Binding Uname}"></Entry>
                 <Entry x:Name="Password" Placeholder="Enter Sensor@123 as Password" Text="{Binding PassWord}" IsPassword="True" Focused="Entry_Focused"></Entry>
