@@ -1,9 +1,6 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using SensorData.Models;
+﻿using SensorData.Models;
 using SensorData.Services;
+using SensorData.Views.CustomViews;
 using Xamarin.Forms;
 
 namespace SensorData.ViewModel.SensorPage
@@ -87,12 +84,10 @@ namespace SensorData.ViewModel.SensorPage
             }
         }
 
-        public Command<Point> SendDataCommand { get { return new Command<Point>((p) => SendAllData(p)); } }
+
+        public Command<TestTry> FrameSwipeCommand{ get { return new Command<TestTry>((p) => CheckSwipeData(p)); } }
         public Command<Point> ParentLayoutCommand { get { return new Command<Point>((p) => OnTapped(p)); } }
-        public Command<Point> EntryCommand { get { return new Command<Point>((p) => OnTapped(p)); } }
-        public Command<Point> ImageCommand { get { return new Command<Point>((p) => OnTapped(p)); } }
-        public Command<Point> LabelCommand { get { return new Command<Point>((p) => OnTapped(p)); } }
-        public Command<Point> TappedCommand { get { return new Command<Point>((p) => OnTapped(p)); } }
+        
         public void OnTapped(Point p)
         {
             App.Current.MainPage.DisplayAlert("Cooooool", "X coordinate : " + p.X + "        Y coordinate : " + p.Y, "OKKKKK");
@@ -108,41 +103,25 @@ namespace SensorData.ViewModel.SensorPage
             set
             {
                 sensorData = value;
+                AddorUpdateFields(sensorData);
                 OnPropertyChanged("SensorData");
             }
         }
 
-        private void SendAllData(object obj)
+        private void AddorUpdateFields(MasterDataModel sensorData)
         {
-            App.Current.MainPage.DisplayAlert("Cooooool", "X coordinate : " + ((Point)obj).X + "        Y coordinate : " + ((Point)obj).Y, "OKKKKK");
-            navService.ShowDialog("SemiCool", "Send Data to Server");
+            CompassText = sensorData.CompassData.Count.ToString();
+            GyroText = sensorData.GyroscopeData.Count.ToString();
+            AccelerometerText = sensorData.AccelerometerData.Count.ToString();
+        }
 
-            //try
-            //{
-            //    HttpClient client = new HttpClient();
-
-            //    var uri = new Uri("http://ec2-3-94-134-168.compute-1.amazonaws.com:8080/unlock-sensor");
-            //    TestBody testBody = new TestBody()
-            //    {
-            //        gyroscope = Gyro.Text,
-            //        accelerometer = Accel.Text
-            //    };
-            //    var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testBody));
-            //    //var buffer = System.Text.Encoding.UTF8.GetBytes(Compass.Text+"///"+Gyro.Text+"///"+Accel.Text+"///"+Proximity.Text+"////");
-            //    var byteContent = new ByteArrayContent(buffer);
-            //    byteContent.Headers.ContentType = new MediaTypeHeaderValue(@"application/json");
-
-            //    var response = await client.PostAsync(uri, byteContent);
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        var result = response.Content.ReadAsStringAsync().Result;
-            //        await App.Current.MainPage.DisplayAlert("Success", result.ToString(), "ok");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    await App.Current.MainPage.DisplayAlert("Meghaaaaa", "YOUR CODE SUCKSSSSSSSSSSSS", "ok");
-            //}
+        private void CheckSwipeData(TestTry testTry)
+        {
+            App.Current.MainPage.DisplayAlert("Cooooool", "Not enough data captured Yet      XLEFT...." + testTry.Coordinate[0].X + "     YLEFT......." + testTry.Coordinate[0].Y
+                + "XRIGHT...." + testTry.Coordinate[1].X + "     YRIGHT......." + testTry.Coordinate[1].Y + "        "+testTry.CustomField1+"         "+testTry.CustomField2, "OKKKKKK");
+                //"XUP...." + testTry.Coordinate[2].X + "     YUP......." + testTry.Coordinate[2].Y
+            //    + "XDOWN...." + testTry.Coordinate[3].X + "     YDOWN......." + testTry.Coordinate[3].Y, "OKKKKK");
+            //App.Current.MainPage.DisplayAlert("Cooooool", "No data captured Yet      XLEFT...." + testTry.Coordinate[0].X + "     YLEFT......." + testTry.Coordinate[0].Y, "OKKKKK");
         }
     }
 

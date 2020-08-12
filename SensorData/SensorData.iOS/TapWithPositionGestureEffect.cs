@@ -29,7 +29,6 @@ namespace SensorData.iOS
                     var control = Control ?? Container;
                     var tapPoint = tapDetector.LocationInView(control);
                     var point = new Point(tapPoint.X, tapPoint.Y);
-
                     if (handler.CanExecute(point) == true)
                         handler.Execute(point);
                 }

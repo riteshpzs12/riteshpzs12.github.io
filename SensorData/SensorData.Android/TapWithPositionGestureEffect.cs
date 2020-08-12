@@ -29,14 +29,11 @@ namespace SensorData.Droid
                     var tap = tapWithPositionCommand;
                     if(tap!=null)
                     {
-                        var x = obj.GetX();
-                        var y = obj.GetY();
-                        var pressure = obj.Pressure;
-                        var point = PxToDp(new Point(x, y));
+                        var point = PxToDp(new Point(obj.GetX(), obj.GetY()));
                         if (tap.CanExecute(point))
                             tap.Execute(point);
                     }
-                }
+                },
             };
         }
 
@@ -58,7 +55,7 @@ namespace SensorData.Droid
 
             var context = control.Context;
             displayMetrics = context.Resources.DisplayMetrics;
-            tapDetector.Density = displayMetrics.Density;
+            //tapDetector.Density = displayMetrics.Density;
             if (gestureRecognizer == null)
                 gestureRecognizer = new GestureDetectorCompat(context, tapDetector);
             control.Touch += ControlOnTouch;
@@ -81,7 +78,7 @@ namespace SensorData.Droid
     sealed class InternalGestureDetector : GestureDetector.SimpleOnGestureListener
     {
         public Action<MotionEvent> TapAction { get; set; }
-        public float Density { get; set; }
+        //public float Density { get; set; }
 
         public override bool OnSingleTapUp(MotionEvent e)
         {

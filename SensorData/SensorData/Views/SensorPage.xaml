@@ -9,20 +9,21 @@
                 <!--<Label x:Name="Proximity" Text="{Binding CompassText}"></Label>
                 <Label x:Name="Heart"></Label>-->
                 <Label x:Name="Accel" Text="{Binding AccelerometerText}"></Label>
-                <Label HorizontalOptions="Center" g:Gesture.Tapped="{Binding SendDataCommand}" Text="Send Data" Margin="10"/>
+                <Label HorizontalOptions="Center" Text="Send Data" Margin="10"/>
             </StackLayout>
             
-            <Frame HeightRequest="200" HorizontalOptions="Fill" Padding="0" g:Gesture.Tapped="{Binding TappedCommand}">
+            <Frame HeightRequest="200" HorizontalOptions="Fill" Padding="0">
                 <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <Label Text="TOUCH LEFTTOP" HorizontalOptions="Start" VerticalOptions="Start" g:Gesture.Tapped="{Binding LabelCommand}"></Label>
-                    <Entry Text="TOUCH RIGHTTOP" HorizontalOptions="End" VerticalOptions="Start" g:Gesture.Tapped="{Binding EntryCommand}"></Entry>
-                    <Image Source="https://www.pngitem.com/pimgs/m/116-1167918_cr7-ronaldo-juventus-png-celebration-clipart-image-cristiano.png" HorizontalOptions="End" VerticalOptions="End" HeightRequest="60" WidthRequest="60" g:Gesture.Tapped="{Binding ImageCommand}" Margin="0,20,30,20"></Image>
+                    <Label Text="TOUCH LEFTTOP" HorizontalOptions="Start" VerticalOptions="Start"></Label>
+                    <Entry Text="TOUCH RIGHTTOP" HorizontalOptions="End" VerticalOptions="Start" ></Entry>
+                    <Image Source="https://www.pngitem.com/pimgs/m/116-1167918_cr7-ronaldo-juventus-png-celebration-clipart-image-cristiano.png" HorizontalOptions="End" VerticalOptions="End" HeightRequest="60" WidthRequest="60" Margin="0,20,30,20"></Image>
                 </StackLayout>
             </Frame>
-            <StackLayout>
-                <Label Text="{Binding TapDataText}"/>
-                <Label Text="{Binding PanDataText}"/>
-            </StackLayout>
+            <Frame Padding="10" HeightRequest="200" HorizontalOptions="Fill" BackgroundColor="Aqua" g:Gesture.Swiped="{Binding FrameSwipeCommand}">
+                <Frame BackgroundColor="White" HorizontalOptions="Fill">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center" Opacity=".2"/>
+                </Frame>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
