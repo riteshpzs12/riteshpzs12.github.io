@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SensorData.Views.PrecisionPredictionTapPage"
+             xmlns:g="clr-namespace:SensorData.Views.CustomViews;assembly=SensorData"
+             BackgroundColor="AntiqueWhite">
+    <ContentPage.Content>
+        <Grid Padding="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" VerticalOptions="StartAndExpand">
+                <Label Text="Test Your Prcision capablity" HorizontalOptions="Center" FontSize="Large"/>
+                <Label Text="Assume the position of the dot in upper box and try to plot in the bigger box below. Tap to find out your accuracy." HorizontalTextAlignment="Center" LineBreakMode="WordWrap" LineHeight="1.2"/>
+            </StackLayout>
+            <Frame Grid.Row="1" BackgroundColor="LightCyan" BorderColor="Black" CornerRadius="0" Padding="0" Margin="10">
+                <Grid Padding="0,10,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                    <Frame x:Name="CheckParent" HasShadow="False" CornerRadius="0" BackgroundColor="White" Grid.Column="1" Padding="0" BorderColor="Blue">
+                        <RelativeLayout>
+                            <Label Text="Try to Assume this Dot's Position" TextColor="Black" Opacity=".2" FontSize="18" HorizontalTextAlignment="Center" LineBreakMode="WordWrap"
+                                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.5}"/>
+                            <BoxView CornerRadius="3.5" BackgroundColor="Black"
+                                WidthRequest="7" HeightRequest="7"
+                                TranslationX="{Binding XLocationFactor}" TranslationY="{Binding YLocationFactor}">
+                            </BoxView>
+                        </RelativeLayout>
+                    </Frame>
+                </Grid>
+            </Frame>
+            <Frame Grid.Row="2" BackgroundColor="LightCyan" BorderColor="Black" CornerRadius="0" Padding="20" Margin="10" IsClippedToBounds="True">
+                <Frame x:Name="PlayTest" HasShadow="False" CornerRadius="0" BackgroundColor="White" Grid.Column="1" Padding="0" BorderColor="Blue" g:Gesture.Tapped="{Binding PrecisionCommand}">
+                    <Label Text="Your Play Ground. Try to match the Position." TextColor="Black" LineHeight="2" Opacity=".2" FontSize="30"  VerticalOptions="Center"  HorizontalTextAlignment="Center" LineBreakMode="WordWrap"/>
+                </Frame>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -58,7 +58,7 @@ namespace SensorData.ViewModel.FirstPage
             if (PassWord == "Sensor@123")
             {
                 DisposeSubscribers();
-                await App.Current.MainPage.Navigation.PushAsync(new NavigationPage(new SensorData.Views.SensorPage(masterDataModel)));
+                _navService.Goto(new NavigationPage(new SensorData.Views.PrecisionPredictionTapPage()));
             }
         }
 

@@ -117,11 +117,23 @@ namespace SensorData.ViewModel.SensorPage
 
         private void CheckSwipeData(TestTry testTry)
         {
-            App.Current.MainPage.DisplayAlert("Cooooool", "Not enough data captured Yet      XLEFT...." + testTry.Coordinate[0].X + "     YLEFT......." + testTry.Coordinate[0].Y
-                + "XRIGHT...." + testTry.Coordinate[1].X + "     YRIGHT......." + testTry.Coordinate[1].Y + "        "+testTry.CustomField1+"         "+testTry.CustomField2, "OKKKKKK");
-                //"XUP...." + testTry.Coordinate[2].X + "     YUP......." + testTry.Coordinate[2].Y
-            //    + "XDOWN...." + testTry.Coordinate[3].X + "     YDOWN......." + testTry.Coordinate[3].Y, "OKKKKK");
-            //App.Current.MainPage.DisplayAlert("Cooooool", "No data captured Yet      XLEFT...." + testTry.Coordinate[0].X + "     YLEFT......." + testTry.Coordinate[0].Y, "OKKKKK");
+            var stringData = "";
+            foreach(Point p in testTry.Coordinate)
+            {
+                stringData = stringData + "X:  " + p.X + "   Y:  " + p.Y + "       ";
+            }
+            if (!string.IsNullOrEmpty(testTry.CustomField1))
+                stringData = stringData + testTry.CustomField1 + "     ";
+            if (!string.IsNullOrEmpty(testTry.CustomField2))
+                stringData = stringData + testTry.CustomField2;
+
+            //if (Device.RuntimePlatform == Device.Android)
+            //    App.Current.MainPage.DisplayAlert("Cooooool", "Not enough data captured Yet      XLEFT...." + testTry.Coordinate[0].X + "     YLEFT......." + testTry.Coordinate[0].Y
+            //    + "XRIGHT...." + testTry.Coordinate[1].X + "     YRIGHT......." + testTry.Coordinate[1].Y + "        "+testTry.CustomField1+"         "+testTry.CustomField2, "OKKKKKK");
+            ////"XUP...." + testTry.Coordinate[2].X + "     YUP......." + testTry.Coordinate[2].Y
+            ////    + "XDOWN...." + testTry.Coordinate[3].X + "     YDOWN......." + testTry.Coordinate[3].Y, "OKKKKK");
+            //else
+            App.Current.MainPage.DisplayAlert("Cooooool", "THIS IS WHAT IS DONE>>>>" + stringData, "OKKKKKK");
         }
     }
 

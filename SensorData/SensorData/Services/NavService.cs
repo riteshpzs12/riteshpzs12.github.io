@@ -14,7 +14,7 @@ namespace SensorData.Services
             var t = App.Current.MainPage.Navigation.NavigationStack.Count;
             if (t>0)
             {
-                if (App.Current.MainPage.Navigation.NavigationStack[t] != page)
+                if (App.Current.MainPage.Navigation.NavigationStack[t-1] != page)
                     App.Current.MainPage.Navigation.PushAsync(page);
             }
         }

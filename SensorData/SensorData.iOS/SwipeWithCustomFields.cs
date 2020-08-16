@@ -69,6 +69,7 @@ namespace SensorData.iOS
                 {
                     var control = Control ?? Container;
                     var tapPoint = swipeDetectors[0].LocationInView(control);
+                    data.CustomField1 = "Direction " + uISwipeGestureRecognizerDirection;
                     data.Coordinate.Clear();
                     data.Coordinate.Add(new Point(tapPoint.X, tapPoint.Y));
                     if (handler.CanExecute(data) == true)

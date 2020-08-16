@@ -27,5 +27,6 @@
     <Folder Include="Services\" />
     <Folder Include="ViewModel\SensorPage\" />
     <Folder Include="Views\CustomViews\" />
+    <Folder Include="ViewModel\PrecisionPredictionTapPage\" />
   </ItemGroup>
 </Project>
