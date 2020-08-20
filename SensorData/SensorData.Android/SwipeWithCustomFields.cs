@@ -34,8 +34,7 @@ namespace SensorData.Droid
 						data.Coordinate.Clear();
 						data.Coordinate.Add(PxToDp(new Point(obj.start.GetX(), obj.start.GetY())));
 						data.Coordinate.Add(PxToDp(new Point(obj.end.GetX(), obj.end.GetY())));
-						data.CustomField1 = "X VELOCITY VALUE IS" + obj.xVelocity;
-						data.CustomField2 = "Y VELOCITY VALUE IS" + obj.yVelocity;
+						data.CustomField1 = CalculateDirection(obj.start, obj.end);
 						if (tap.CanExecute(data))
 							tap.Execute(data);
 					}
@@ -43,7 +42,27 @@ namespace SensorData.Droid
 			};
 		}
 
-		protected override void OnElementPropertyChanged(PropertyChangedEventArgs args)
+        private string CalculateDirection(MotionEvent start, MotionEvent end)
+        {
+			var xdeviation = start.XPrecision - end.XPrecision;
+			var ydeviation = start.YPrecision - end.YPrecision;
+			if(Math.Abs(xdeviation)>Math.Abs(ydeviation))
+            {
+				if (xdeviation < 0)
+					return "Right";
+				else
+					return "Left";
+            }
+			else
+            {
+				if (ydeviation < 0)
+					return "Down";
+				else
+					return "Up";
+			}
+        }
+
+        protected override void OnElementPropertyChanged(PropertyChangedEventArgs args)
 		{
 			swipeWithPositionCommand = Gesture.GetSwipeCommand(Element);
 		}
