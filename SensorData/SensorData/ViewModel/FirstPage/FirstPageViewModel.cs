@@ -55,6 +55,8 @@ namespace SensorData.ViewModel.FirstPage
         
         private async void Login()
         {
+
+
             if (PassWord == "Sensor@123")
             {
                 DisposeSubscribers();

@@ -1,18 +1,14 @@
 ﻿using System;
 namespace SensorData.Models
 {
-    public class CustomBaseRespones
+    public class CustomBaseRespone
     {
-        public CustomBaseRespones()
-        {
-        }
+        
     }
 
     public class CustomeBaseRequest
     {
-        public CustomeBaseRequest()
-        {
-        }
+        
     }
 
     class TestBody

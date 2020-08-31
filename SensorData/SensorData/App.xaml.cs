@@ -7,6 +7,8 @@ namespace SensorData
 {
     public partial class App : Application
     {
+        public static string DeviceId = null;
+
         public App()
         {
             InitializeComponent();

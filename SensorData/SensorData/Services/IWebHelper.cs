@@ -6,6 +6,6 @@ namespace SensorData.Services
 {
     public interface IWebHelper
     {
-        Task<bool> GetCall(CustomeBaseRequest data);
+        Task<Object> PostCall(CustomeBaseRequest data);
     }
 }

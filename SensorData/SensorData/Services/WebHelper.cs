@@ -13,34 +13,58 @@ namespace SensorData.Services
         {
         }
 
-        public async Task<bool> GetCall(CustomeBaseRequest data)
+        //public async Task<bool> GetCall(CustomeBaseRequest data)
+        //{
+        //    try
+        //    {
+        //        HttpClient client = new HttpClient();
+
+        //        var uri = new Uri("http://ec2-3-94-134-168.compute-1.amazonaws.com:8080/unlock-sensor");
+        //        TestBody testBody = new TestBody()
+        //        {
+        //            gyroscope = "Gyro sensor data",
+        //            accelerometer = "Accelerometer sensor data"
+        //        };
+        //        var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testBody));
+        //        //var buffer = System.Text.Encoding.UTF8.GetBytes(Compass.Text+"///"+Gyro.Text+"///"+Accel.Text+"///"+Proximity.Text+"////");
+        //        var byteContent = new ByteArrayContent(buffer);
+        //        byteContent.Headers.ContentType = new MediaTypeHeaderValue(@"application/json");
+
+        //        var response = await client.PostAsync(uri, byteContent);
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var result = response.Content.ReadAsStringAsync().Result;
+        //            return true;
+        //        }
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        public async Task<Object> PostCall(CustomeBaseRequest data)
         {
             try
             {
                 HttpClient client = new HttpClient();
-
-                var uri = new Uri("http://ec2-3-94-134-168.compute-1.amazonaws.com:8080/unlock-sensor");
-                TestBody testBody = new TestBody()
-                {
-                    gyroscope = "Gyro sensor data",
-                    accelerometer = "Accelerometer sensor data"
-                };
-                var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testBody));
-                //var buffer = System.Text.Encoding.UTF8.GetBytes(Compass.Text+"///"+Gyro.Text+"///"+Accel.Text+"///"+Proximity.Text+"////");
+                CredModel c = (CredModel)data;
+                var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(c));
                 var byteContent = new ByteArrayContent(buffer);
                 byteContent.Headers.ContentType = new MediaTypeHeaderValue(@"application/json");
 
-                var response = await client.PostAsync(uri, byteContent);
+                var response = await client.PostAsync(Config.LoginUrl, byteContent);
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsStringAsync().Result;
-                    return true;
+                    return result;
                 }
-                return false;
+                return "Failed";
             }
             catch (Exception ex)
             {
-                return false;
+                return "Failed";
             }
         }
     }

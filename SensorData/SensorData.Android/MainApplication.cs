@@ -1,6 +1,8 @@
 ﻿using System;
 using Android.App;
+using Android.OS;
 using Android.Runtime;
+using static Android.Provider.Settings;
 
 namespace SensorData.Droid
 {
@@ -19,6 +21,23 @@ namespace SensorData.Droid
                 this,
                 new ShinySensor.SensorStartup()
             );
+            if (!string.IsNullOrEmpty(App.DeviceId))
+            {
+                string id = Android.OS.Build.Serial;
+                if (string.IsNullOrWhiteSpace(id) || id == Build.Unknown || id == "0")
+                {
+                    try
+                    {
+                        var context = Android.App.Application.Context;
+                        id = Secure.GetString(context.ContentResolver, Secure.AndroidId);
+                    }
+                    catch (Exception ex)
+                    {
+                        id = "UNKNOWN";
+                    }
+                }
+                App.DeviceId = id;
+            } 
         }
     }
 }

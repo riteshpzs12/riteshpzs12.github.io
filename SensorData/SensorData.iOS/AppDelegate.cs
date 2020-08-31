@@ -27,5 +27,11 @@ namespace SensorData.iOS
             LoadApplication(new App());
             return base.FinishedLaunching(app, options);
         }
+
+        public override void OnActivated(UIApplication uiApplication)
+        {
+            base.OnActivated(uiApplication);
+            App.DeviceId = UIKit.UIDevice.CurrentDevice.IdentifierForVendor.AsString();
+        }
     }
 }
