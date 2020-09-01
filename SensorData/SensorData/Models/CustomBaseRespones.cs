@@ -1,11 +1,6 @@
 ﻿using System;
 namespace SensorData.Models
 {
-    public class CustomBaseRespone
-    {
-        
-    }
-
     public class CustomeBaseRequest
     {
         

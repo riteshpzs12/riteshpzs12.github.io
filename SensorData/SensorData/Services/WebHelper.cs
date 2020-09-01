@@ -44,27 +44,38 @@ namespace SensorData.Services
         //    }
         //}
 
-        public async Task<Object> PostCall(CustomeBaseRequest data)
+        public async Task<BaseResponse<LoginResponse>> PostCall(CustomeBaseRequest request)
         {
             try
             {
                 HttpClient client = new HttpClient();
-                CredModel c = (CredModel)data;
+                CredModel c = (CredModel)request;
                 var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(c));
                 var byteContent = new ByteArrayContent(buffer);
                 byteContent.Headers.ContentType = new MediaTypeHeaderValue(@"application/json");
+                JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
 
                 var response = await client.PostAsync(Config.LoginUrl, byteContent);
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsStringAsync().Result;
-                    return result;
+                    return new BaseResponse<LoginResponse>.Success
+                    {
+                        data = JsonConvert.DeserializeObject<LoginResponse>(result)
+                    };
                 }
-                return "Failed";
+                return JsonConvert.DeserializeObject<BaseResponse<LoginResponse>.Error>(response.Content.ReadAsStringAsync().Result);
             }
             catch (Exception ex)
             {
-                return "Failed";
+                return new BaseResponse<LoginResponse>.Error
+                {
+                    statusCode = System.Net.HttpStatusCode.InternalServerError,
+                    message = ex.Message
+                };
             }
         }
     }

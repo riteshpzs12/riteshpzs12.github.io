@@ -181,7 +181,7 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
                 TapPrecisionModel acc = CalculateAccuracy(point);
                 UpdatePlayGround(point, acc);
                 var totalAcc = (100 - (acc.UserXError + acc.UserYError));
-                var choice = await _navService.ShowInteractiveDialogAsync("Accuracy", "Your accuracy" + totalAcc.ToString("#.000"), "Play More", "Stats");
+                var choice = await _navService.ShowInteractiveDialogAsync("Accuracy", "Your accuracy is :  " + totalAcc.ToString("#.000"), "Play More", "Stats");
                 if (choice)
                 {
                     UpdateDotLocation();

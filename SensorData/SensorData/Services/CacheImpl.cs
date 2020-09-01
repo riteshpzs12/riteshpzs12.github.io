@@ -11,14 +11,19 @@ namespace SensorData.Services
             Barrel.ApplicationId = Config.ApplicationId;
         }
 
-        public void Add<T>(T objects)
+        public void Add<T>(T objects, string key)
         {
-            Barrel.Current.Add<T>(Config.CredCacheKey, objects, TimeSpan.MaxValue);
+            Barrel.Current.Add<T>(key, objects, TimeSpan.MaxValue);
         }
 
         public T Get<T>(string key)
         {
             return Barrel.Current.Get<T>(key);
+        }
+
+        public void Remove(string key)
+        {
+            Barrel.Current.Empty(new string[] { key });
         }
     }
 }
