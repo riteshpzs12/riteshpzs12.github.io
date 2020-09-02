@@ -33,8 +33,8 @@ namespace SensorData.ViewModel.FirstPage
             var cred = _cache.Get<CredModel>(Config.CredCacheKey);
             if (cred != null)
             {
-                Uname = cred.userName;
-                PassWord = cred.passWord;
+                Uname = cred.username;
+                PassWord = cred.password;
                 FingerPrintLoginAsync();
             }
         }
@@ -56,6 +56,7 @@ namespace SensorData.ViewModel.FirstPage
         internal void StartOver()
         {
             _sensorService.FlushData();
+            CheckAndLoadCache();
         }
 
         internal void DisposeSubscribers()
@@ -74,10 +75,10 @@ namespace SensorData.ViewModel.FirstPage
             CredModel cred = new CredModel()
             {
                 deviceId = App.DeviceId.Trim(),
-                userName = Uname.Trim(),
-                passWord = PassWord.Trim()
+                username = Uname.Trim(),
+                password = PassWord.Trim()
             };
-            var res = await _webHelper.PostCall(cred);
+            var res = await _webHelper.PostLoginCall(cred);
 
             switch (res)
             {

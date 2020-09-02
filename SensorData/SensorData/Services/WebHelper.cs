@@ -44,21 +44,11 @@ namespace SensorData.Services
         //    }
         //}
 
-        public async Task<BaseResponse<LoginResponse>> PostCall(CustomeBaseRequest request)
+        public async Task<BaseResponse<LoginResponse>> PostLoginCall(CredModel request)
         {
             try
             {
-                HttpClient client = new HttpClient();
-                CredModel c = (CredModel)request;
-                var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(c));
-                var byteContent = new ByteArrayContent(buffer);
-                byteContent.Headers.ContentType = new MediaTypeHeaderValue(@"application/json");
-                JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                };
-
-                var response = await client.PostAsync(Config.LoginUrl, byteContent);
+                var response = await HttpPOSTCall(Config.LoginUrl, request);
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsStringAsync().Result;
@@ -77,6 +67,21 @@ namespace SensorData.Services
                     message = ex.Message
                 };
             }
+        }
+
+        private async Task<HttpResponseMessage> HttpPOSTCall(string url, Object data)
+        {
+            HttpClient client = new HttpClient();
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            //HttpContent httpContent = new HttpContent();
+            var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue(@"application/json");
+            var response = await client.PostAsync(url, byteContent);
+            return response;
         }
     }
 }

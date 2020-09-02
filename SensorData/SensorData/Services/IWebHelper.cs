@@ -6,6 +6,6 @@ namespace SensorData.Services
 {
     public interface IWebHelper
     {
-        Task<BaseResponse<LoginResponse>> PostCall(CustomeBaseRequest data);
+        Task<BaseResponse<LoginResponse>> PostLoginCall(CredModel data);
     }
 }
