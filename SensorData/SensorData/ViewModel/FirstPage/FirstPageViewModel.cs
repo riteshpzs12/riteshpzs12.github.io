@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SensorData.Models;
@@ -26,6 +25,7 @@ namespace SensorData.ViewModel.FirstPage
             LoginCommand = new Command(Login);
             FingerPrintCommand = new Command(FingerPrintLoginAsync);
             CheckAndLoadCache();
+            FingerPrintLoginAsync();
         }
 
         private void CheckAndLoadCache()
@@ -35,7 +35,6 @@ namespace SensorData.ViewModel.FirstPage
             {
                 Uname = cred.username;
                 PassWord = cred.password;
-                FingerPrintLoginAsync();
             }
         }
 
@@ -47,7 +46,6 @@ namespace SensorData.ViewModel.FirstPage
                 AuthenticationRequestConfiguration config = new AuthenticationRequestConfiguration("Wait","Let me check who are u");
                 if((await CrossFingerprint.Current.AuthenticateAsync(config)).Authenticated)
                 {
-                    PassWord = "Sensor@123";
                     Login();
                 }
             }
@@ -71,6 +69,7 @@ namespace SensorData.ViewModel.FirstPage
         
         private async void Login()
         {
+            var l = await _webHelper.TestCompression();
             _sensorService.StartCapture();
             CredModel cred = new CredModel()
             {

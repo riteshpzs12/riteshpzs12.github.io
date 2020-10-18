@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Shiny.Sensors;
 
 namespace SensorData.Models
@@ -20,5 +21,11 @@ namespace SensorData.Models
         public Dictionary<long, MotionReading> GyroscopeData { get; set; }
         public Dictionary<long, bool> ProximityData { get; set; }
         public Dictionary<long, ushort> HeartRateData { get; set; }
+    }
+
+    public class SensorDataResponse : BaseResponse<SensorDataResponse>
+    {
+        //[JsonProperty("userId")]
+        //public int UID { get; set; }
     }
 }
