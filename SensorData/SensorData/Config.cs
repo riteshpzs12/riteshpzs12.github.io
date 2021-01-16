@@ -1,6 +1,7 @@
 ﻿using System;
 namespace SensorData
 {
+    //This file will contain the config urls and the constants for the project
     public class Config
     {
         public const string ApplicationId = "Sensor.Data.Initial";

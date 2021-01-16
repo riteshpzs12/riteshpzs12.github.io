@@ -8,6 +8,8 @@ using Xamarin.Forms;
 
 namespace SensorData.ViewModel.PrecisionPredictionTapPage
 {
+    //This Page checks, evaluates and stores the user tap precision performance data
+    //TODO : Dynamic top frame, add levels, send data to backend, Optimization
     public class PrecisionPredictionTapPageViewModel : BaseViewModel
     {
         INavService _navService;
@@ -135,6 +137,9 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
             }
         }
 
+        /// <summary>
+        /// Updates/Changes the Dots location in the top frame
+        /// </summary>
         public void UpdateDotLocation()
         {
             Random random = new Random();
@@ -161,6 +166,10 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
 
         public Command<TestTry> ResetCommand { get { return new Command<TestTry>((t) => Reset(t)); } }
 
+        /// <summary>
+        /// Hides the Stat top bar and changes the dot location
+        /// </summary>
+        /// <param name="testTry"></param>
         private void Reset(TestTry testTry)
         {
             if (testTry.CustomField1 == "Up")
@@ -172,8 +181,14 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
             } 
         }
 
+        //This is overridden of tap gesture to capture the relative coordinates within the view.
         public Command<Point> PrecisionCommand { get { return new Command<Point>((p) => CheckPrecisionAsync(p)); } }
 
+        /// <summary>
+        /// Checks and displays popup of the precision of users tap
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         private async System.Threading.Tasks.Task CheckPrecisionAsync(Point point)
         {
             if (!IsStatVisible)
@@ -181,6 +196,7 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
                 TapPrecisionModel acc = CalculateAccuracy(point);
                 UpdatePlayGround(point, acc);
                 var totalAcc = (100 - (acc.UserXError + acc.UserYError));
+                //TODO this popup has to be something else (say a nicer custom view) 
                 var choice = await _navService.ShowInteractiveDialogAsync("Accuracy", "Your accuracy is :  " + totalAcc.ToString("#.000"), "Play More", "Stats");
                 if (choice)
                 {
@@ -194,6 +210,9 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
             }
         }
 
+        /// <summary>
+        /// Forms the stat for user's attempts and display
+        /// </summary>
         private void showStat()
         {
             IsStatVisible = true;
@@ -231,6 +250,11 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
             });
         }
 
+        /// <summary>
+        /// Shows the actual and tapped dots in the playground
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="acc"></param>
         private void UpdatePlayGround(Point point, TapPrecisionModel acc)
         {
             PositionVisiblity = true;
@@ -242,6 +266,11 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
             UserY = point.Y;
         }
 
+        /// <summary>
+        /// Calculates the precison accuaracy as well as the error
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         private TapPrecisionModel CalculateAccuracy(Point point)
         {
             TapPrecisionModel res = new TapPrecisionModel();
@@ -258,6 +287,9 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
         }
     }
 
+    /// <summary>
+    /// Class to capture the tap accuracy reading (to send to API)
+    /// </summary>
     public class TapPrecisionModel
     {
         public double ActualXPosition { get; set; }
@@ -266,6 +298,9 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
         public double UserYError { get; set; }
     }
 
+    /// <summary>
+    /// class to bind the stat data
+    /// </summary>
     public class StatDisplayModel
     {
         public string Key { get; set; }

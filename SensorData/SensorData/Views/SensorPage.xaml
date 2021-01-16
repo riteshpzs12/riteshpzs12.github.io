@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SensorData.Views.SensorPage"
              xmlns:g="clr-namespace:SensorData.Views.CustomViews;assembly=SensorData">
     <ContentPage.Content>
+        <!--This page is for experiment the new features whatever we need, currents the swipe data fields that we can extract-->
         <StackLayout g:Gesture.Tapped="{Binding ParentLayoutCommand}">
             <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Padding="0,30,0,30">
                 <Label x:Name="Compass" Text="{Binding CompassText}"></Label>

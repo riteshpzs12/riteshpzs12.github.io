@@ -5,6 +5,9 @@ using Xamarin.Forms;
 
 namespace SensorData.Views.CustomViews
 {
+    /// <summary>
+    /// This view extends the Frame
+    /// </summary>
     public class GestureFrame : Frame
     {
         public GestureFrame()
@@ -46,6 +49,12 @@ namespace SensorData.Views.CustomViews
             view.SetValue(SwipedProperty, value);
         }
 
+        /// <summary>
+        /// Attaches the Tap effect
+        /// </summary>
+        /// <param name="bindable"></param>
+        /// <param name="oldValue"></param>
+        /// <param name="newValue"></param>
         private static void CommandChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var view = bindable as View;
@@ -55,6 +64,12 @@ namespace SensorData.Views.CustomViews
             }
         }
 
+        /// <summary>
+        /// Attaches the Swipe effect
+        /// </summary>
+        /// <param name="bindable"></param>
+        /// <param name="oldValue"></param>
+        /// <param name="newValue"></param>
         private static void SwipeCommandChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var view = bindable as View;
@@ -64,6 +79,11 @@ namespace SensorData.Views.CustomViews
             }
         }
 
+        /// <summary>
+        /// Adds the swipe effect to the view if not attached
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
         private static object GetOrCreateSwipeEffect(View view)
         {
             var effect = (SwipeGestureEffect)view.Effects.FirstOrDefault(e => e is SwipeGestureEffect);
@@ -75,6 +95,11 @@ namespace SensorData.Views.CustomViews
             return effect;
         }
 
+        /// <summary>
+        /// Adds the tap effect to the view if not attached
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
         private static GestureEffect GetOrCreateEffect(View view)
         {
             var effect = (GestureEffect)view.Effects.FirstOrDefault(e => e is GestureEffect);
@@ -86,15 +111,23 @@ namespace SensorData.Views.CustomViews
             return effect;
         }
 
+        /// <summary>
+        /// The Tap Gesture effect
+        /// </summary>
         class GestureEffect : RoutingEffect
         {
+            // TapWithPositionGestureEffect is the Native description for the effect
             public GestureEffect() : base("SensorData.TapWithPositionGestureEffect")
             {
             }
         }
 
+        /// <summary>
+        /// The Swipe Gesture effect
+        /// </summary>
         class SwipeGestureEffect : RoutingEffect
         {
+            // SwipeWithCustomFields is the Native description for the effect
             public SwipeGestureEffect() : base("SensorData.SwipeWithCustomFields")
             {
             }

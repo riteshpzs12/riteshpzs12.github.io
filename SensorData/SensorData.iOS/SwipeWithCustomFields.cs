@@ -25,6 +25,10 @@ namespace SensorData.iOS
             swipeDetectors = CreateSwipeRecognizer(() => swipeWithCustomdataCommand); ;
         }
 
+        /// <summary>
+		/// Attaches the listeners/recognizers ascociated with a Swipe to the view
+		/// called after the effect is attached to the view
+		/// </summary>
         protected override void OnAttached()
         {
             var control = Control ?? Container;
@@ -35,6 +39,10 @@ namespace SensorData.iOS
             OnElementPropertyChanged(new PropertyChangedEventArgs(String.Empty));
         }
 
+        /// <summary>
+		/// Detaches the listeners/recognizers ascociated with a Swipe
+		/// called after the effect is detached to the view
+		/// </summary>
         protected override void OnDetached()
         {
             var control = Control ?? Container;
@@ -48,6 +56,11 @@ namespace SensorData.iOS
             swipeWithCustomdataCommand = Gesture.GetSwipeCommand(Element);
         }
 
+        /// <summary>
+        /// Creates list of swipe listeners/recognizers for different directions
+        /// </summary>
+        /// <param name="getCommand"></param>
+        /// <returns></returns>
         private List<UISwipeGestureRecognizer> CreateSwipeRecognizer(Func<Command<TestTry>> getCommand)
         {
             UISwipeGestureRecognizer left = TestCustom(UISwipeGestureRecognizerDirection.Left, getCommand);
@@ -60,6 +73,12 @@ namespace SensorData.iOS
             return res;
         }
 
+        /// <summary>
+        /// Creates each listener/recognizer with custom logic
+        /// </summary>
+        /// <param name="uISwipeGestureRecognizerDirection"></param>
+        /// <param name="getCommand"></param>
+        /// <returns></returns>
         private UISwipeGestureRecognizer TestCustom(UISwipeGestureRecognizerDirection uISwipeGestureRecognizerDirection, Func<Command<TestTry>> getCommand)
         {
             return new UISwipeGestureRecognizer(() =>

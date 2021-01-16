@@ -42,6 +42,12 @@ namespace SensorData.Droid
 			};
 		}
 
+		/// <summary>
+        /// Calculates the direction of the swipe
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
         private string CalculateDirection(MotionEvent start, MotionEvent end)
         {
 			var xdeviation = start.XPrecision - end.XPrecision;
@@ -62,11 +68,20 @@ namespace SensorData.Droid
 			}
         }
 
+		/// <summary>
+        /// Gets the command from the view ELement
+        /// </summary>
+        /// <param name="args"></param>
         protected override void OnElementPropertyChanged(PropertyChangedEventArgs args)
 		{
 			swipeWithPositionCommand = Gesture.GetSwipeCommand(Element);
 		}
 
+		/// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
 		private Point PxToDp(Point point)
 		{
 			point.X = point.X / displayMetrics.Density;
@@ -74,6 +89,10 @@ namespace SensorData.Droid
 			return point;
 		}
 
+		/// <summary>
+		/// Attaches the touch events ascociated with a Swipe
+		/// called after the effect is attached to the view
+		/// </summary>
 		protected override void OnAttached()
 		{
 			var control = Control ?? Container;
@@ -88,11 +107,20 @@ namespace SensorData.Droid
 			OnElementPropertyChanged(new PropertyChangedEventArgs(String.Empty));
 		}
 
+		/// <summary>
+        /// Method that invokes the touchevents
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="touchEventArgs"></param>
 		private void ControlOnTouch(object sender, Android.Views.View.TouchEventArgs touchEventArgs)
 		{
 			gestureRecognizer?.OnTouchEvent(touchEventArgs.Event);
 		}
 
+		/// <summary>
+		/// Detaches the touch events ascociated with a Swipe
+		/// called after the effect is detached to the view
+		/// </summary>
 		protected override void OnDetached()
 		{
 			var control = Control ?? Container;
@@ -111,12 +139,16 @@ namespace SensorData.Droid
     sealed class InternalSwipeGestureDetector : GestureDetector.SimpleOnGestureListener
     {
         public Action<CustomAndroidSwipeData> SwipeAction { get; set; }
-        //public float Density { get; set; }
-
+		/// <summary>
+        /// Gets the detailed the reading of the swipe
+        /// </summary>
+        /// <param name="e1"></param>
+        /// <param name="e2"></param>
+        /// <param name="velocityX"></param>
+        /// <param name="velocityY"></param>
+        /// <returns></returns>
 		public override bool OnFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
 		{
-			Console.WriteLine("OnFling");
-
 			SwipeAction?.Invoke(new CustomAndroidSwipeData()
 			{
 				start = e1,

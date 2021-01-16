@@ -33,6 +33,10 @@ namespace SensorData.Services
             heartRate = new Dictionary<long, ushort>();
         }
 
+        /// <summary>
+        /// Disposes the Sensor instances and returns the captured data as MasterDataModel
+        /// </summary>
+        /// <returns>MasterDataModel</returns>
         public MasterDataModel DisposeAll()
         {
             if (!Capturing)
@@ -58,6 +62,9 @@ namespace SensorData.Services
             };
         }
 
+        /// <summary>
+        /// Clears the cpatured data of the dictionaries
+        /// </summary>
         public void FlushData()
         {
             compass.Clear();
@@ -67,6 +74,9 @@ namespace SensorData.Services
             heartRate.Clear();
         }
 
+        /// <summary>
+        /// Creates each sensors instance, ready to capure data
+        /// </summary>
         private void ResolveAllSensors()
         {
             Compass = ShinyHost.Resolve<ICompass>();
@@ -76,6 +86,9 @@ namespace SensorData.Services
             HeartRate = ShinyHost.Resolve<IHeartRateMonitor>();
         }
 
+        /// <summary>
+        /// Captures the sensor reading into the dictionaries
+        /// </summary>
         public void StartCapture()
         {
             if (Capturing)

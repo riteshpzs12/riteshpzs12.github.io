@@ -13,6 +13,9 @@ namespace SensorData
         {
             InitializeComponent();
 
+            //Opens the Firs Page, typically the Login page now
+            //TODO : Will change this to registration page
+            //TODO : Based on cached details the landing page will vary between registration and Login
             MainPage = new NavigationPage(new FirstPage());
         }
 

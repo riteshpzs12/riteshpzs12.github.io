@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
-using ModernHttpClient;
+//using ModernHttpClient;
 using Newtonsoft.Json;
 using SensorData.Models;
 
@@ -136,7 +136,7 @@ namespace SensorData.Services
                 AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
             };
             httpClient = new HttpClient(httpHandler);
-            modernHttpClient = new HttpClient(new NativeMessageHandler());
+            modernHttpClient = new HttpClient(new ModernHttpClient.NativeMessageHandler());
         }
     }
 

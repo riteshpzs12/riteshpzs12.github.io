@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 namespace SensorData.ViewModel.FirstPage
 {
+    //TODO : Only first time when we open the login page if creds are saved then show popup
     public class FirstPageViewModel : BaseViewModel
     {
         ISensorService _sensorService;
@@ -24,26 +25,34 @@ namespace SensorData.ViewModel.FirstPage
 
             LoginCommand = new Command(Login);
             FingerPrintCommand = new Command(FingerPrintLoginAsync);
-            CheckAndLoadCache();
-            FingerPrintLoginAsync();
+            if(CheckAndLoadCache())
+               FingerPrintLoginAsync();
         }
 
-        private void CheckAndLoadCache()
+        /// <summary>
+        /// Loads data from cache if available
+        /// </summary>
+        private bool CheckAndLoadCache()
         {
             var cred = _cache.Get<CredModel>(Config.CredCacheKey);
             if (cred != null)
             {
                 Uname = cred.username;
                 PassWord = cred.password;
+                return true;
             }
+            return false;
         }
 
+        /// <summary>
+        /// Tapping on Fingerprint will open the popup for fingerprint
+        /// </summary>
         private async void FingerPrintLoginAsync()
         {
             if (await CrossFingerprint.Current.IsAvailableAsync(false))
             {
                 _sensorService.StartCapture();
-                AuthenticationRequestConfiguration config = new AuthenticationRequestConfiguration("Wait","Let me check who are u");
+                AuthenticationRequestConfiguration config = new AuthenticationRequestConfiguration("Wait","Let me check who are you");
                 if((await CrossFingerprint.Current.AuthenticateAsync(config)).Authenticated)
                 {
                     Login();
@@ -51,22 +60,34 @@ namespace SensorData.ViewModel.FirstPage
             }
         }
 
+        /// <summary>
+        /// When page reappears reset the sensors
+        /// </summary>
         internal void StartOver()
         {
             _sensorService.FlushData();
             CheckAndLoadCache();
         }
 
+        /// <summary>
+        /// When page reappears reset the sensors
+        /// </summary>
         internal void DisposeSubscribers()
         {
             masterDataModel = _sensorService.DisposeAll();
         }
 
+        /// <summary>
+        /// Starts the capturing of the sensor reading
+        /// </summary>
         internal void StartCapture()
         {
             _sensorService.StartCapture();
         }
-        
+
+        /// <summary>
+        /// Login API call navigation based on response
+        /// </summary>
         private async void Login()
         {
             var l = await _webHelper.TestCompression();
@@ -84,7 +105,7 @@ namespace SensorData.ViewModel.FirstPage
                 case BaseResponse<LoginResponse>.Success s:
                     SaveDetails(cred);
                     DisposeSubscribers();
-                    _navService.Goto(new NavigationPage(new SensorData.Views.PrecisionPredictionTapPage()));
+                    _navService.Goto(new NavigationPage(new SensorData.Views.SensorPage()));
                     break;
                 case BaseResponse<LoginResponse>.Error e:
                     CheckAndDisplayProperAlert(e);
@@ -94,11 +115,19 @@ namespace SensorData.ViewModel.FirstPage
             }
         }
 
+        /// <summary>
+        /// Saves the credentials data based on the response
+        /// </summary>
+        /// <param name="cred"></param>
         private void SaveDetails(CredModel cred)
         {
             _cache.Add<CredModel>(cred, Config.CredCacheKey);
         }
 
+        /// <summary>
+        /// Stops data capturing and shows error if login fails
+        /// </summary>
+        /// <param name="e"></param>
         private void CheckAndDisplayProperAlert(BaseResponse<LoginResponse>.Error e)
         {
             DisposeSubscribers();

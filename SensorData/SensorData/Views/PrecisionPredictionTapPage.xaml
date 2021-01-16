@@ -3,6 +3,8 @@
              xmlns:g="clr-namespace:SensorData.Views.CustomViews;assembly=SensorData"
              BackgroundColor="AntiqueWhite">
     <ContentPage.Content>
+        <!--This page is a small playground to check users tap precision How good he can replicate a dots location in a relative layout-->
+        <!--TODO : Dynamic scaling of the top square -->
         <Grid Padding="0" g:Gesture.Swiped="{Binding ResetCommand}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="15*"/>
@@ -13,6 +15,8 @@
                 <Label Text="Test Your Tap Precision" HorizontalOptions="Center" FontSize="Large"/>
                 <Label Text="Assume the position of the dot in upper box and try to plot in the bigger box below. Tap to find out your accuracy." HorizontalTextAlignment="Center" LineBreakMode="WordWrap" LineHeight="1.2"/>
             </StackLayout>
+
+            <!--Top frame, the one where the actual dot is shown-->
             <Frame Grid.Row="1" BackgroundColor="LightCyan" BorderColor="Black" CornerRadius="0" Padding="0" Margin="10">
                 <Grid Padding="0,10,0,10">
                     <Grid.ColumnDefinitions>
@@ -32,6 +36,8 @@
                     </Frame>
                 </Grid>
             </Frame>
+
+            <!--Bottom frame, the one where user tries to replicate the approx postion of the dot-->
             <Frame Grid.Row="2" BackgroundColor="LightCyan" BorderColor="Black" CornerRadius="0" Padding="20" Margin="10" IsClippedToBounds="True">
                 <Frame x:Name="PlayTest" HasShadow="False" CornerRadius="0" BackgroundColor="White" Grid.Column="1" Padding="0" BorderColor="Blue" g:Gesture.Tapped="{Binding PrecisionCommand}">
                     <RelativeLayout>
@@ -47,8 +53,12 @@
                     </RelativeLayout>
                 </Frame>
             </Frame>
+
+            <!--Top Slider, To show the stats of the play
+                TODO : Need to add animation, UI change, dont show upto 10 decimal just upto 2
+            -->
             <AbsoluteLayout>
-             <ContentView AbsoluteLayout.LayoutBounds="0,0,1,2.5" AbsoluteLayout.LayoutFlags="All">
+             <ContentView AbsoluteLayout.LayoutBounds="0,0,1,2.5" AbsoluteLayout.LayoutFlags="All">                 
                 <Frame BackgroundColor="Azure" IsVisible="{Binding IsStatVisible}">
                     <StackLayout>
                         <ListView HasUnevenRows="True" SeparatorVisibility="None" VerticalScrollBarVisibility="Never" VerticalOptions="Start" HorizontalOptions="Center" ItemsSource="{Binding StatDisplayModels,Mode=TwoWay}" Margin="10,20,10,20" BackgroundColor="Azure">
@@ -75,27 +85,6 @@
                             </ListView.Footer>
                         </ListView>
                     </StackLayout>
-                    <!--<StackLayout Padding="10,20,10,20">
-                        <Label Text="Statistics" HorizontalTextAlignment="Center" HorizontalOptions="Center"/>
-                        <Grid>
-                            <StackLayout Grid.Column="0">
-                                <Label Text="Last attempt accuracy" HorizontalOptions="Center"/>
-                                <Label Text="Last attempt Horizontal accuracy" HorizontalOptions="Center"/>
-                                <Label Text="Last attempt Vertical accuracy" HorizontalOptions="Center"/>
-                                <Label Text="Overall attempt accuracy" HorizontalOptions="Center"/>
-                                <Label Text="Overall attempt Horzontal accuracy" HorizontalOptions="Center"/>
-                                <Label Text="Overall attempt Vertical" HorizontalOptions="Center"/>
-                            </StackLayout>
-                            <StackLayout Grid.Column="1">
-                                <Label Text="Attempts" HorizontalOptions="Center"/>
-                                <Label Text="Attempts" HorizontalOptions="Center"/>
-                                <Label Text="Attempts" HorizontalOptions="Center"/>
-                                <Label Text="Attempts" HorizontalOptions="Center"/>
-                                <Label Text="Attempts" HorizontalOptions="Center"/>
-                                <Label Text="Attempts" HorizontalOptions="Center"/>
-                            </StackLayout>
-                        </Grid>
-                    </StackLayout>-->
                 </Frame>
             </ContentView>
             </AbsoluteLayout>

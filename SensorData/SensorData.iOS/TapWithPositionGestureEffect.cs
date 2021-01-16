@@ -19,6 +19,11 @@ namespace SensorData.iOS
             tapDetector = CreateTapRecognizer(() => tapWithPositionCommand); ;
         }
 
+        /// <summary>
+        /// Creates the tap recognizer/listener
+        /// </summary>
+        /// <param name="getCommand"></param>
+        /// <returns></returns>
         private UITapGestureRecognizer CreateTapRecognizer(Func<Command<Point>> getCommand)
         {
             return new UITapGestureRecognizer(() =>
@@ -44,6 +49,9 @@ namespace SensorData.iOS
             tapWithPositionCommand = Gesture.GetCommand(Element);
         }
 
+        /// <summary>
+        /// Adds the recognizer/listener to the view
+        /// </summary>
         protected override void OnAttached()
         {
             var control = Control ?? Container;
@@ -54,6 +62,9 @@ namespace SensorData.iOS
             OnElementPropertyChanged(new PropertyChangedEventArgs(String.Empty));
         }
 
+        /// <summary>
+        /// Removes the recognizer/listener to the view
+        /// </summary>
         protected override void OnDetached()
         {
             var control = Control ?? Container;
