@@ -1,1 +1,6 @@
-# Empty CSS file for your own CSS
+.jumbotron-extended{
+	padding-right: 1rem;
+	padding-left: 1rem;
+	padding-top: .5rem;
+	padding-bottom: 2px; 
+}
