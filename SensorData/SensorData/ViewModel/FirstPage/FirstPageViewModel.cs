@@ -25,6 +25,7 @@ namespace SensorData.ViewModel.FirstPage
 
             LoginCommand = new Command(Login);
             FingerPrintCommand = new Command(FingerPrintLoginAsync);
+            RegisterCommand = new Command(() => _navService.Goto(new NavigationPage(new SensorData.Views.Registration())));
             if(CheckAndLoadCache())
                FingerPrintLoginAsync();
         }
@@ -164,5 +165,6 @@ namespace SensorData.ViewModel.FirstPage
 
         public ICommand LoginCommand { get; set; }
         public ICommand FingerPrintCommand { get; set; }
+        public ICommand RegisterCommand { get; set; }
     }
 }

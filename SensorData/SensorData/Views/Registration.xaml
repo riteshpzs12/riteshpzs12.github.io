@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SensorData.Views.Registration" BackgroundImageSource="Registration1.jpg"
+             xmlns:cus="clr-namespace:SensorData.Views.CustomViews;assembly=SensorData">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <StackLayout BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+                         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <ScrollView VerticalScrollBarVisibility="Never" VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand">
+                    <StackLayout x:Name="Container" Orientation="Vertical"
+                                 VerticalOptions="StartAndExpand" Spacing="20" HorizontalOptions="CenterAndExpand">
+                        <Label Text="This is the header" FontSize="35" Margin="0,10,0,30"/>
+
+                        <Frame HorizontalOptions="Center" Padding="0" CornerRadius="10" BackgroundColor="Transparent" HasShadow="False" HeightRequest="40"
+                               IsClippedToBounds="True">
+                            <cus:CustomEntry x:Name="Name" Placeholder="Your Name" Style="{StaticResource VSMEntry}" Text="{Binding Name}"
+                                             Focused="Entry_Focused" Unfocused="Entry_UnFocused"/>
+                        </Frame>
+                        <Frame HorizontalOptions="Center" Padding="0" CornerRadius="10" BackgroundColor="Transparent" HasShadow="False" HeightRequest="40"
+                               IsClippedToBounds="True">
+                            <cus:CustomEntry x:Name="Email" Unfocused="Entry_UnFocused" Focused="Entry_Focused" Placeholder="Email Id or Phone"
+                                             Style="{StaticResource VSMEntry}" Text="{Binding EmailorPhone}">
+                            </cus:CustomEntry>
+                        </Frame>
+                        <Frame HorizontalOptions="Center" Padding="0" CornerRadius="10" BackgroundColor="Transparent" HasShadow="False"
+                               IsClippedToBounds="True" HeightRequest="40">
+                            <cus:CustomEntry x:Name="Password1" Focused="Entry_Focused" Unfocused="Entry_UnFocused" Placeholder="Password"
+                                             Style="{StaticResource VSMEntry}" Text="{Binding Password}" IsPassword="True">
+                            </cus:CustomEntry>
+                        </Frame>
+                        <Frame HorizontalOptions="Center" Padding="0"  CornerRadius="10" BackgroundColor="Transparent" HasShadow="False"
+                               IsClippedToBounds="True" HeightRequest="40">
+                            <cus:CustomEntry x:Name="Password2" Focused="Entry_Focused" Placeholder="Confirm Password" Unfocused="Entry_UnFocused"
+                                             Style="{StaticResource VSMEntry}" Text="{Binding ConfirmPassword}"
+                                   IsPassword="True">
+                            </cus:CustomEntry>
+                        </Frame>
+                        <StackLayout Orientation="Horizontal" Spacing="0" HorizontalOptions="Center">
+                            <CheckBox x:Name="Policy" CheckedChanged="CheckBox_CheckedChanged" IsEnabled="False">
+                            </CheckBox>
+                            <Label Text="This is the privacy policy" VerticalOptions="Center"/>
+                        </StackLayout>
+                        <Button x:Name="register" Style="{StaticResource ButtonStyle1}" Padding="10,0,10,0" IsEnabled="{Binding IsRegisterEnabled}"
+                                Text="Register" Clicked="Button_Clicked" HorizontalOptions="Center"/>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
