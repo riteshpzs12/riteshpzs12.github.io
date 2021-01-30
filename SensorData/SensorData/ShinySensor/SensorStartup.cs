@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Shiny;
 
+//Will deprecate this as shinysensor will be removed
 namespace SensorData.ShinySensor
 {
     public class SensorStartup : ShinyStartup

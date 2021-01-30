@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Registration1.jpg" />
+    <BundleResource Include="Resources\Registration2.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

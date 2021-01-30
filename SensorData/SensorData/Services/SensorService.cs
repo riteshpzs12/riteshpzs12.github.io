@@ -4,6 +4,7 @@ using SensorData.Models;
 using Shiny;
 using Shiny.Sensors;
 
+//Will deprecate this as shinysensor will be removed
 namespace SensorData.Services
 {
     public class SensorService : ISensorService

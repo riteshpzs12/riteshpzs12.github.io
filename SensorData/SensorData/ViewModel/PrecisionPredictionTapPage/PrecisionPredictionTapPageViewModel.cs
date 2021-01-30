@@ -215,6 +215,7 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
         /// </summary>
         private void showStat()
         {
+            App.orientationCapture.ControlSunscribe(false);
             IsStatVisible = true;
             StatDisplayModels.Add(new StatDisplayModel() {
                 Key = "Last Accuracy",

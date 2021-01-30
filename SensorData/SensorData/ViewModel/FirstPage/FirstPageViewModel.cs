@@ -3,6 +3,7 @@ using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SensorData.Models;
 using SensorData.Services;
+using SensorData.ShinySensor.Sensors_XamEssential;
 using Xamarin.Forms;
 
 namespace SensorData.ViewModel.FirstPage
@@ -35,6 +36,7 @@ namespace SensorData.ViewModel.FirstPage
         /// </summary>
         private bool CheckAndLoadCache()
         {
+            App.orientationCapture.ControlSunscribe(true);
             var cred = _cache.Get<CredModel>(Config.CredCacheKey);
             if (cred != null)
             {
@@ -91,7 +93,7 @@ namespace SensorData.ViewModel.FirstPage
         /// </summary>
         private async void Login()
         {
-            var l = await _webHelper.TestCompression();
+            //var l = await _webHelper.TestCompression();
             _sensorService.StartCapture();
             CredModel cred = new CredModel()
             {
@@ -106,7 +108,7 @@ namespace SensorData.ViewModel.FirstPage
                 case BaseResponse<LoginResponse>.Success s:
                     SaveDetails(cred);
                     DisposeSubscribers();
-                    _navService.Goto(new NavigationPage(new SensorData.Views.SensorPage()));
+                    _navService.Goto(new NavigationPage(new SensorData.Views.PrecisionPredictionTapPage()));
                     break;
                 case BaseResponse<LoginResponse>.Error e:
                     CheckAndDisplayProperAlert(e);

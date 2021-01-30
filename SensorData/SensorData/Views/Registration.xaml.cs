@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using SensorData.ContainerHelper;
+﻿using SensorData.ContainerHelper;
 using SensorData.ViewModel.Registrations;
+using SensorData.Views.CustomViews;
 using Xamarin.Forms;
 
 namespace SensorData.Views
@@ -29,6 +28,12 @@ namespace SensorData.Views
             App.Current.MainPage.DisplayAlert("Registration", "User Registered Successfully", "Ok");
         }
 
+        void consent_Clicked(System.Object sender, System.EventArgs e)
+        {
+            App.Current.MainPage.DisplayAlert("Consents", "Here is the popup for getting consents", "Ok");
+            register.IsVisible = true;
+        }
+
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
@@ -41,7 +46,7 @@ namespace SensorData.Views
                 Password2.WidthRequest = container - 120;
             }
             if (button == 0.0)
-                button = register.Width;
+                button = consent.Width;
         }
 
         void Entry_Focused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
@@ -53,12 +58,13 @@ namespace SensorData.Views
                 Animate(entry, true, 200);
                 Animate(parent, true, 200);
             }
-            entry.Focus();
+            entry.BackgroundColor = Color.White;
         }
 
         void Entry_UnFocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
         {
             Entry entry = (Entry)sender;
+            ((CustomEntry)entry).IsDirty = true;
             var parent = (Frame)(entry.Parent);
             if (entry != null && parent != null)
             {
@@ -67,12 +73,19 @@ namespace SensorData.Views
             }
             entry.Unfocus();
             var IsValid = ViewModel.validate();
-            _ = IsValid[0] ? VisualStateManager.GoToState(Name, "Normal") : VisualStateManager.GoToState(Name, "Invalid");
-            _ = IsValid[1] ? VisualStateManager.GoToState(Email, "Normal") : VisualStateManager.GoToState(Email, "Invalid");
-            _ = IsValid[2] ? VisualStateManager.GoToState(Password1, "Normal") : VisualStateManager.GoToState(Password1, "Invalid");
-            _ = IsValid[3] ? VisualStateManager.GoToState(Password2, "Normal") : VisualStateManager.GoToState(Password2, "Invalid"); 
-            if (!IsValid[0] && IsValid[1] && IsValid[2] && IsValid[3])
+
+            _ = Name.IsDirty ? IsValid[0] ? VisualStateManager.GoToState(Name, "Valid") : VisualStateManager.GoToState(Name, "Invalid") : VisualStateManager.GoToState(Name, "Normal");
+            _ = Email.IsDirty ? IsValid[1] ? VisualStateManager.GoToState(Email, "Valid") : VisualStateManager.GoToState(Email, "Invalid") : VisualStateManager.GoToState(Email, "Normal");
+            _ = Password1.IsDirty ? IsValid[2] ? VisualStateManager.GoToState(Password1, "Valid") : VisualStateManager.GoToState(Password1, "Invalid") : VisualStateManager.GoToState(Password1, "Normal") ;
+            _ = Password2.IsDirty ? IsValid[3] ? VisualStateManager.GoToState(Password2, "Valid") : VisualStateManager.GoToState(Password2, "Invalid") : VisualStateManager.GoToState(Password2, "Normal");
+
+            if (IsValid[0] && IsValid[1] && IsValid[2] && IsValid[3])
                 Policy.IsEnabled = true;
+            else
+            {
+                Policy.IsChecked = false;
+                Policy.IsEnabled = false;
+            }
         }
 
         public void Animate(VisualElement view, bool scaleFlag, uint length)
@@ -100,14 +113,14 @@ namespace SensorData.Views
                 register.IsEnabled = true;
                 var animation = new Animation(v => register.WidthRequest = v, button, button * 2);
                 animation.Commit(this, "Enable", length: 200, easing: Easing.Linear,
-                    finished: (v, c) => { register.WidthRequest = button * 2;}, repeat: () => false);
+                    finished: (v, c) => { consent.WidthRequest = button * 2; consent.IsEnabled = true; }, repeat: () => false);
             }                
             else
             {
                 register.IsEnabled = false;
                 var animation = new Animation(v => register.WidthRequest = v, button * 2, button);
                 animation.Commit(this, "Enable", length: 200, easing: Easing.Linear,
-                    finished: (v, c) => { register.WidthRequest = button; }, repeat: () => false);
+                    finished: (v, c) => { consent.WidthRequest = button; consent.IsEnabled = false; }, repeat: () => false);
             }
         }
     }
