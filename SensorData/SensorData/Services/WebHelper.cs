@@ -15,38 +15,20 @@ namespace SensorData.Services
     public class WebHelper : IWebHelper
     {
         public HttpClient httpClient;
-        //public HttpClient modernHttpClient;
-        //public async Task<bool> GetCall(CustomeBaseRequest data)
-        //{
-        //    try
-        //    {
-        //        HttpClient client = new HttpClient();
+        private ICache cache;
 
-        //        var uri = new Uri("http://ec2-3-94-134-168.compute-1.amazonaws.com:8080/unlock-sensor");
-        //        TestBody testBody = new TestBody()
-        //        {
-        //            gyroscope = "Gyro sensor data",
-        //            accelerometer = "Accelerometer sensor data"
-        //        };
-        //        var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testBody));
-        //        //var buffer = System.Text.Encoding.UTF8.GetBytes(Compass.Text+"///"+Gyro.Text+"///"+Accel.Text+"///"+Proximity.Text+"////");
-        //        var byteContent = new ByteArrayContent(buffer);
-        //        byteContent.Headers.ContentType = new MediaTypeHeaderValue(@"application/json");
-
-        //        var response = await client.PostAsync(uri, byteContent);
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            var result = response.Content.ReadAsStringAsync().Result;
-        //            return true;
-        //        }
-        //        return false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false;
-        //    }
-        //}
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public WebHelper(ICache _cache)
+        {
+            cache = _cache;
+        }
+        /// <summary>
+        /// The Login process, TODO update the login
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<BaseResponse<LoginResponse>> PostLoginCall(CredModel request)
         {
             try
@@ -126,14 +108,41 @@ namespace SensorData.Services
             return response;
         }
 
-        public void SetUp()
+        private void SetUp()
         {
             var httpHandler = new HttpClientHandler
             {
-                AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
+                AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
             };
             httpClient = new HttpClient(httpHandler);
-            //modernHttpClient = new HttpClient(new ModernHttpClient.NativeMessageHandler());
+        }
+
+        public async Task SendSensorData<T>(Dictionary<long, T> data, SensorTypeEnum sensorTypeEnum)
+        {
+            SetUp();
+            var d = await CompressDataAsync(data);
+            httpClient.DefaultRequestHeaders.Remove("Accept-Encoding");
+            httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+            var byteContent = new ByteArrayContent(d.ToArray());
+            var response = await httpClient.PostAsync(Config.DataPushUrl + sensorTypeEnum.ToString(), byteContent);
+        }
+
+        private async Task<MemoryStream> CompressDataAsync<T>(Dictionary<long, T> data)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            byte[] d;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bf.Serialize(ms, data);
+                d = ms.ToArray();
+            }
+            var outputStream = new MemoryStream();
+            using (var gZipStream = new GZipStream(outputStream, CompressionLevel.Optimal, false))
+            {
+                await gZipStream.WriteAsync(d, 0, d.Length);
+            }
+
+            return outputStream;
         }
     }
 

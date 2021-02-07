@@ -75,6 +75,7 @@
     <Compile Include="TapWithPositionGestureEffect.cs" />
     <Compile Include="SwipeWithCustomFields.cs" />
     <Compile Include="Renderer\CustomEntryRenderer.cs" />
+    <Compile Include="Services\FileOpiOS.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -145,5 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

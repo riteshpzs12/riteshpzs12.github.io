@@ -9,7 +9,7 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
         {
             IIoCContainer container = new IoCContainer();
             container.Register<IBaseViewModel, PrecisionPredictionTapPageViewModel>();
-            container.Register<ISensorService, SensorService>();
+            //container.Register<ISensorService, SensorService>();
             container.Register<INavService, NavService>();
             return container;
         }

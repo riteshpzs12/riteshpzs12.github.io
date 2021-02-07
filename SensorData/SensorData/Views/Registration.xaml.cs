@@ -23,17 +23,6 @@ namespace SensorData.Views
             set { BindingContext = value; }
         }
 
-        void Button_Clicked(System.Object sender, System.EventArgs e)
-        {
-            App.Current.MainPage.DisplayAlert("Registration", "User Registered Successfully", "Ok");
-        }
-
-        void consent_Clicked(System.Object sender, System.EventArgs e)
-        {
-            App.Current.MainPage.DisplayAlert("Consents", "Here is the popup for getting consents", "Ok");
-            register.IsVisible = true;
-        }
-
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
@@ -114,6 +103,7 @@ namespace SensorData.Views
                 var animation = new Animation(v => register.WidthRequest = v, button, button * 2);
                 animation.Commit(this, "Enable", length: 200, easing: Easing.Linear,
                     finished: (v, c) => { consent.WidthRequest = button * 2; consent.IsEnabled = true; }, repeat: () => false);
+                ViewModel.ResolvePermissions();
             }                
             else
             {

@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Xamarin.Essentials;
 
 namespace SensorData.ShinySensor.Sensors_XamEssential
 {
     public class AccelerometerCapture : ISenseors
     {
+        Stopwatch AccWatch;
         public Dictionary<long, AccelerometerData> AccelerometerDataReading { get; private set; }
         public AccelerometerCapture()
         {
-            Accelerometer.ReadingChanged += AccelerometerSensor_ReadingChanged;
             AccelerometerDataReading = new Dictionary<long, AccelerometerData>();
+            AccWatch = new Stopwatch();
+            Accelerometer.ReadingChanged += AccelerometerSensor_ReadingChanged;
         }
 
         private void AccelerometerSensor_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
         {
-            AccelerometerDataReading.Add(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), e.Reading);
+            AccelerometerDataReading.Add(AccWatch.ElapsedTicks, e.Reading);
         }
 
         public void ControlSunscribe(bool flag)
@@ -25,10 +28,12 @@ namespace SensorData.ShinySensor.Sensors_XamEssential
                 if (Accelerometer.IsMonitoring && !flag)
                 {
                     Accelerometer.Stop();
+                    AccWatch.Reset();
                 }
                 else if (!Accelerometer.IsMonitoring && flag)
                 {
-                    Accelerometer.Start(SensorSpeed.UI);
+                    AccWatch.Start();
+                    Accelerometer.Start(Config.sensorSpeed);
                 }
                 else
                 {

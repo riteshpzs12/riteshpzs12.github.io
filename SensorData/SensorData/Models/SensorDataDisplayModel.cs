@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using Shiny.Sensors;
+﻿using System.Collections.Generic;
 
 namespace SensorData.Models
 {
@@ -16,11 +13,11 @@ namespace SensorData.Models
 
     public class MasterDataModel
     {
-        public Dictionary<long, CompassReading> CompassData { get; set; }
-        public Dictionary<long, MotionReading> AccelerometerData { get; set; }
-        public Dictionary<long, MotionReading> GyroscopeData { get; set; }
-        public Dictionary<long, bool> ProximityData { get; set; }
-        public Dictionary<long, ushort> HeartRateData { get; set; }
+        public Dictionary<long, Xamarin.Essentials.CompassData> CompassData { get; set; }
+        public Dictionary<long, Xamarin.Essentials.AccelerometerData> AccelerometerData { get; set; }
+        public Dictionary<long, Xamarin.Essentials.GyroscopeData> GyroscopeData { get; set; }
+        public Dictionary<long, Xamarin.Essentials.OrientationSensorData> OrientationSensorData { get; set; }
+        public Dictionary<long, Xamarin.Essentials.MagnetometerData> MagnetometerData { get; set; }
     }
 
     public class SensorDataResponse : BaseResponse<SensorDataResponse>

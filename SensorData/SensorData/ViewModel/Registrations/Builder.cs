@@ -11,6 +11,8 @@ namespace SensorData.ViewModel.Registrations
             IIoCContainer container = new IoCContainer();
             container.Register<IBaseViewModel, RegistrationViewModel>();
             container.Register<INavService, NavService>();
+            container.Register<IFileOperation, FileOperation>();
+            container.Register<ICache, CacheImpl>();
             return container;
         }
     }

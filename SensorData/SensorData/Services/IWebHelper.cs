@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SensorData.Models;
 
@@ -8,8 +9,6 @@ namespace SensorData.Services
     {
         Task<BaseResponse<LoginResponse>> PostLoginCall(CredModel data);
 
-        //        Task<BaseResponse<LoginResponse>> PostSensorData(MasterDataModel data);
-
-        Task<long> TestCompression();
+        Task SendSensorData<T>(Dictionary<long, T> data, SensorTypeEnum sensorTypeEnum);
     }
 }

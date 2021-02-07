@@ -35,21 +35,33 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Authenticate with Face ID</string>
-<key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-        <key>NSExceptionDomains</key>
-        <dict>
-            <key>yourdomain.com</key>
-            <dict>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-                <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-                <false/>
-            </dict>
-       </dict>
-  </dict>
+	<string>Please Enable Face Id</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>yourdomain.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+		</dict>
+	</dict>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Please enable Documents Access.</string>
+	<key>NSSensorKitUsageDescription</key>
+	<string>Please enable Sensor Access.</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Please allow Downloads Access</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSFileProviderDomainUsageDescription</key>
+	<string>Please allow File Access</string>
 </dict>
 </plist>

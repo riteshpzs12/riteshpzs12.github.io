@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Xamarin.Essentials;
 
 namespace SensorData.ShinySensor.Sensors_XamEssential
 {
     public class OrientationCapture : ISenseors
     {
+        Stopwatch OrientationWatch;
         public Dictionary<long, OrientationSensorData> OrientationDataReading { get; private set; }
         public OrientationCapture()
         {
+            OrientationWatch = new Stopwatch();
+            OrientationDataReading = new Dictionary<long, OrientationSensorData>();
             OrientationSensor.ReadingChanged += OrientationSensor_ReadingChanged;
         }
 
         private void OrientationSensor_ReadingChanged(object sender, OrientationSensorChangedEventArgs e)
         {
-            OrientationDataReading.Add(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), e.Reading);
-            OrientationDataReading = new Dictionary<long, OrientationSensorData>();
+            OrientationDataReading.Add(OrientationWatch.ElapsedTicks, e.Reading);
         }
 
         public void ControlSunscribe(bool flag)
@@ -25,10 +28,12 @@ namespace SensorData.ShinySensor.Sensors_XamEssential
                 if (OrientationSensor.IsMonitoring && !flag)
                 {
                     OrientationSensor.Stop();
+                    OrientationWatch.Reset();
                 }
                 else if (!OrientationSensor.IsMonitoring && flag)
                 {
-                    OrientationSensor.Start(SensorSpeed.UI);
+                    OrientationWatch.Start();
+                    OrientationSensor.Start(Config.sensorSpeed);
                 }
                 else
                 {

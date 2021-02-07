@@ -5,6 +5,8 @@ namespace SensorData.Services
 {
     public class NavService : INavService
     {
+        public Application ApplicationContext { get; set; }
+
         public NavService()
         {
         }
@@ -17,6 +19,11 @@ namespace SensorData.Services
                 if (App.Current.MainPage.Navigation.NavigationStack[t-1] != page)
                     App.Current.MainPage.Navigation.PushAsync(page);
             }
+        }
+
+        public void OpenLandingPagePostLogin(Page page)
+        {
+            ApplicationContext.MainPage = new NavigationPage(page);
         }
 
         public void ShowDialog(string title, string description)

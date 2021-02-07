@@ -48,9 +48,9 @@
                         </StackLayout>
                         <StackLayout>
                             <Button x:Name="register" Style="{StaticResource ButtonStyle1}" Padding="10,0,10,0" IsEnabled="{Binding IsRegisterEnabled}"
-                                Text="Register" Clicked="Button_Clicked" HorizontalOptions="Center" IsVisible="False"/>
+                                Text="Register" Command="{Binding RegisterUser}" HorizontalOptions="Center" IsVisible="False"/>
                             <Button x:Name="consent" Style="{StaticResource ButtonStyle1}" Padding="10,0,10,0" IsEnabled="False"
-                                Text="Consent" HorizontalOptions="Center" Clicked="consent_Clicked">
+                                Text="Consent" HorizontalOptions="Center" Command="{Binding StartConsent}">
                                 <Button.Triggers>
                                     <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference register}, Path=IsVisible}" Value="False">
                                         <Setter Property="IsVisible" Value="True"/>

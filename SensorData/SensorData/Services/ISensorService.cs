@@ -1,5 +1,4 @@
-﻿using System;
-using SensorData.Models;
+﻿using SensorData.Models;
 
 //Will deprecate this as shinysensor will be removed
 namespace SensorData.Services
@@ -8,6 +7,7 @@ namespace SensorData.Services
     {
         void StartCapture();
         void FlushData();
-        MasterDataModel DisposeAll();
+        void DisposeAll();
+        MasterDataModel GetData();
     }
 }

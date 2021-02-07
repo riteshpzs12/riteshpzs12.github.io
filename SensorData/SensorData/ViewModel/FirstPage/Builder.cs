@@ -9,7 +9,7 @@ namespace SensorData.ViewModel.FirstPage
         {
             IIoCContainer container = new IoCContainer();
             container.Register<IBaseViewModel, FirstPageViewModel>();
-            container.Register<ISensorService, SensorService>();
+            //container.Register<ISensorService, SensorService>();
             container.Register<INavService, NavService>();
             container.Register<ICache, CacheImpl>();
             container.Register<IWebHelper, WebHelper>();

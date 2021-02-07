@@ -1,66 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SensorData.Models;
-using Shiny;
-using Shiny.Sensors;
+using SensorData.ShinySensor.Sensors_XamEssential;
 
 //Will deprecate this as shinysensor will be removed
 namespace SensorData.Services
 {
     public class SensorService : ISensorService
     {
-        ICompass Compass;
-        IAccelerometer Accelerometer;
-        IGyroscope GyroScope;
-        IProximity Proximity;
-        IHeartRateMonitor HeartRate;
-        List<IDisposable> availableSensors;
-        Dictionary<long, CompassReading> compass;
-        Dictionary<long, MotionReading> accelerometer;
-        Dictionary<long, MotionReading> gyroscope;
-        Dictionary<long, bool> proximity;
-        Dictionary<long, ushort> heartRate;
-        bool Capturing;
-
+        public List<ISenseors> senseors;
+        private bool Capturing;
         public SensorService()
         {
             ResolveAllSensors();
             Capturing = false;
-            availableSensors = new List<IDisposable>();
-            compass = new Dictionary<long, CompassReading>();
-            accelerometer = new Dictionary<long, MotionReading>();
-            gyroscope = new Dictionary<long, MotionReading>();
-            proximity = new Dictionary<long, bool>();
-            heartRate = new Dictionary<long, ushort>();
         }
 
         /// <summary>
-        /// Disposes the Sensor instances and returns the captured data as MasterDataModel
+        /// Disposes the Sensor instances
         /// </summary>
         /// <returns>MasterDataModel</returns>
-        public MasterDataModel DisposeAll()
+        public void DisposeAll()
         {
             if (!Capturing)
-                return null;
-            Capturing = false;
-            foreach (IDisposable disposable in availableSensors)
+                return;
+            foreach (ISenseors senseors in senseors)
             {
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
+                senseors.ControlSunscribe(false);
             }
-
             Capturing = false;
-
-            return new MasterDataModel()
-            {
-                CompassData = compass,
-                AccelerometerData = accelerometer,
-                GyroscopeData = gyroscope,
-                HeartRateData = heartRate,
-                ProximityData = proximity
-            };
         }
 
         /// <summary>
@@ -68,11 +35,25 @@ namespace SensorData.Services
         /// </summary>
         public void FlushData()
         {
-            compass.Clear();
-            gyroscope.Clear();
-            accelerometer.Clear();
-            proximity.Clear();
-            heartRate.Clear();
+            foreach (ISenseors senseors in senseors)
+            {
+                senseors.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the Data captured by the sensors.
+        /// </summary>
+        /// <returns></returns>
+        public MasterDataModel GetData()
+        {
+            MasterDataModel masterDataModel = new MasterDataModel();
+            masterDataModel.AccelerometerData = ((AccelerometerCapture)senseors[0]).AccelerometerDataReading;
+            masterDataModel.GyroscopeData = ((GyroscopeCapture)senseors[1]).GyroscopeDataReading;
+            masterDataModel.OrientationSensorData = ((OrientationCapture)senseors[2]).OrientationDataReading;
+            masterDataModel.CompassData = ((CompassCapture)senseors[3]).CompassDataReading;
+            masterDataModel.MagnetometerData = ((MagnetometerCapture)senseors[4]).MagnetometerDataReading;
+            return masterDataModel;
         }
 
         /// <summary>
@@ -80,11 +61,12 @@ namespace SensorData.Services
         /// </summary>
         private void ResolveAllSensors()
         {
-            Compass = ShinyHost.Resolve<ICompass>();
-            Accelerometer = ShinyHost.Resolve<IAccelerometer>();
-            GyroScope = ShinyHost.Resolve<IGyroscope>();
-            Proximity = ShinyHost.Resolve<IProximity>();
-            HeartRate = ShinyHost.Resolve<IHeartRateMonitor>();
+            senseors = new List<ISenseors>();
+            senseors.Add(new AccelerometerCapture());
+            senseors.Add(new GyroscopeCapture());
+            senseors.Add(new OrientationCapture());
+            senseors.Add(new CompassCapture());
+            senseors.Add(new MagnetometerCapture());
         }
 
         /// <summary>
@@ -96,45 +78,9 @@ namespace SensorData.Services
                 return;
 
             Capturing = true;
-
-            if (Compass != null)
+            foreach(ISenseors senseors in senseors)
             {
-                availableSensors.Add(Compass.WhenReadingTaken().Subscribe(c =>
-                {
-                    compass.Add(DateTime.UtcNow.Ticks, c);
-                }));
-            }
-
-            if (Accelerometer != null)
-            {
-                availableSensors.Add(Accelerometer.WhenReadingTaken().Subscribe(a =>
-                {
-                    accelerometer.Add(DateTime.UtcNow.Ticks, a);
-                }));
-            }
-
-            if (GyroScope != null)
-            {
-                availableSensors.Add(GyroScope.WhenReadingTaken().Subscribe(g =>
-                {
-                    gyroscope.Add(DateTime.UtcNow.Ticks, g);
-                }));
-            }
-
-            if (Proximity != null)
-            {
-                availableSensors.Add(Proximity.WhenReadingTaken().Subscribe(p =>
-                {
-                    proximity.Add(DateTime.UtcNow.Ticks, p);
-                }));
-            }
-
-            if (HeartRate != null)
-            {
-                availableSensors.Add(HeartRate.WhenReadingTaken().Subscribe(h =>
-                {
-                    heartRate.Add(DateTime.UtcNow.Millisecond, h);
-                }));
+                senseors.ControlSunscribe(true);
             }
         }
     }

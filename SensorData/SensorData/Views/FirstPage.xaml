@@ -10,8 +10,8 @@
             </Grid.RowDefinitions>
             <Label Text="Welcome to our small fun App" FontSize="Title" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
             <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Orientation="Vertical" Spacing="10" Grid.Row="1">
-                <Entry x:Name="Username" Focused="Entry_Focused" Placeholder="Enter Ur Name" Text="{Binding Uname}"></Entry>
-                <Entry x:Name="Password" Placeholder="Enter Sensor@123 as Password" Text="{Binding PassWord}" IsPassword="True" Focused="Entry_Focused"></Entry>
+                <Entry x:Name="Username" Placeholder="Enter Ur Name" Text="{Binding Uname}"></Entry>
+                <Entry x:Name="Password" Placeholder="Enter Sensor@123 as Password" Text="{Binding PassWord}" IsPassword="True"></Entry>
                 <Button Text="Login normally" VerticalOptions="Center" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand"/>
                 <Button Text="Login with Magic" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Command="{Binding FingerPrintCommand}"/>
                 <Button Text="Register" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Command="{Binding RegisterCommand}"/>
