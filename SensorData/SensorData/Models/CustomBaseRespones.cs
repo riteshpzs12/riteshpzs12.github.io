@@ -5,10 +5,4 @@ namespace SensorData.Models
     {
         
     }
-
-    class TestBody
-    {
-        public string gyroscope;
-        public string accelerometer;
-    }
 }

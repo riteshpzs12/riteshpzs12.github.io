@@ -1,4 +1,5 @@
-﻿using SensorData.ContainerHelper;
+﻿using System;
+using SensorData.ContainerHelper;
 using SensorData.ViewModel.Registrations;
 using SensorData.Views.CustomViews;
 using Xamarin.Forms;
@@ -36,6 +37,7 @@ namespace SensorData.Views
             }
             if (button == 0.0)
                 button = consent.Width;
+            List.HeightRequest = (ViewModel.ListItems.Count * 55) * 100;
         }
 
         void Entry_Focused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
@@ -93,6 +95,13 @@ namespace SensorData.Views
                 animation.Commit(this, name, length: length, easing: Easing.Linear,
                     finished: (v, c) => view.WidthRequest = end, repeat: () => false);
             }
+        }
+
+        void consent_Clicked(System.Object sender, EventArgs eventArgs)
+        {
+            consent.IsVisible = false;
+            register.IsVisible = true;
+            ViewModel.ShowConsent();
         }
 
         void CheckBox_CheckedChanged(System.Object sender, Xamarin.Forms.CheckedChangedEventArgs e)

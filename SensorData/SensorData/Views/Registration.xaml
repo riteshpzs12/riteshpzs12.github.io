@@ -50,7 +50,7 @@
                             <Button x:Name="register" Style="{StaticResource ButtonStyle1}" Padding="10,0,10,0" IsEnabled="{Binding IsRegisterEnabled}"
                                 Text="Register" Command="{Binding RegisterUser}" HorizontalOptions="Center" IsVisible="False"/>
                             <Button x:Name="consent" Style="{StaticResource ButtonStyle1}" Padding="10,0,10,0" IsEnabled="False"
-                                Text="Consent" HorizontalOptions="Center" Command="{Binding StartConsent}">
+                                Text="Consent" Clicked="consent_Clicked" HorizontalOptions="Center">
                                 <Button.Triggers>
                                     <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference register}, Path=IsVisible}" Value="False">
                                         <Setter Property="IsVisible" Value="True"/>
@@ -64,6 +64,34 @@
                     </StackLayout>
                 </ScrollView>
             </StackLayout>
+            <ContentView AbsoluteLayout.LayoutBounds="0,.5,1,.5" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsConsentVisible}" BackgroundColor="Transparent">
+                <Frame Padding="0" x:Name="List" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="White" Margin="20,0,20,0" CornerRadius="15" HasShadow="False">
+                    <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Padding="0" Margin="0">
+                        <ListView HorizontalOptions="Center" ItemsSource="{Binding ListItems, Mode=TwoWay}" VerticalScrollBarVisibility="Never"
+                                  SeparatorVisibility="None" VerticalOptions="Fill" BackgroundColor="White" Margin="10">
+                            <ListView.Header>
+                                <Label Text="User Consent" FontSize="22" TextColor="Black" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout VerticalOptions="Center" Margin="15,0,15,0" Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding Allowed}" VerticalOptions="Center" HorizontalOptions="Center" Margin="3"/>
+                                            <Label Text="{Binding Description}" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.Footer>
+                                <StackLayout BackgroundColor="Transparent" Margin="10,20,10,20" Spacing="10">
+                                    <Label VerticalOptions="Center" Text="We will Collect these data solely for research purposes." TextColor="Black" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                    <Button Text="OK" Command="{Binding ConsentGiven}" HorizontalOptions="Center" VerticalOptions="End"/>
+                                </StackLayout>
+                            </ListView.Footer>
+                        </ListView>
+                    </StackLayout>
+                </Frame>
+            </ContentView>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

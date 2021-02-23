@@ -54,44 +54,22 @@ namespace SensorData.Services
             }
         }
 
-        public async Task<long> TestCompression()
+        /// <summary>
+        /// Send The sensor data to the backend
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <param name="sensorTypeEnum"></param>
+        /// <returns></returns>
+        public async Task SendSensorData<T>(Dictionary<long, T> data, SensorTypeEnum sensorTypeEnum)
         {
             SetUp();
-            compress();
-            var data = new List<String>() { "I dont eat", "I dont Care", "I love Megha", "I love madrid", "NO NO NO", "ON ON NO" };
-            var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
-            await App.Current.MainPage.DisplayAlert("NON COMPRESSED","The Length is : " + buffer.Length.ToString(),"OK");
+            var d = await CompressDataAsync(data);
             httpClient.DefaultRequestHeaders.Remove("Accept-Encoding");
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
-            var jsonContent = new JsonContent(data);
-            var r = await httpClient.PostAsync(Config.LoginUrl, jsonContent);
-            return 0;
-        }
-
-        private async void compress()
-        {
-            var data = new List<String>() { "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." };
-            BinaryFormatter bf = new BinaryFormatter();
-            byte[] d;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, data);
-                d = ms.ToArray();
-            }
-            await App.Current.MainPage.DisplayAlert("Un comp Length", d.Length.ToString(), "ok");
-            var outputStream = new MemoryStream();
-            using (var gZipStream = new GZipStream(outputStream, CompressionLevel.Fastest, false)) 
-            {
-                await gZipStream.WriteAsync(d, 0, d.Length);
-            }
-
-            await App.Current.MainPage.DisplayAlert("RANDOM", BitConverter.ToString(outputStream.ToArray()), "ok");
-            await App.Current.MainPage.DisplayAlert("RANDOM", outputStream.ToArray().Length.ToString(), "ok");
-        }
-
-        private void decompress()
-        {
-
+            var byteContent = new ByteArrayContent(d.ToArray());
+            var t = d.ToArray().Length;
+            var response = await httpClient.PostAsync(Config.DataPushUrl + sensorTypeEnum.ToString(), byteContent);
         }
 
         private async Task<HttpResponseMessage> HttpPOSTCall(string url, Object data)
@@ -117,24 +95,19 @@ namespace SensorData.Services
             httpClient = new HttpClient(httpHandler);
         }
 
-        public async Task SendSensorData<T>(Dictionary<long, T> data, SensorTypeEnum sensorTypeEnum)
-        {
-            SetUp();
-            var d = await CompressDataAsync(data);
-            httpClient.DefaultRequestHeaders.Remove("Accept-Encoding");
-            httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
-            var byteContent = new ByteArrayContent(d.ToArray());
-            var response = await httpClient.PostAsync(Config.DataPushUrl + sensorTypeEnum.ToString(), byteContent);
-        }
+        
 
         private async Task<MemoryStream> CompressDataAsync<T>(Dictionary<long, T> data)
         {
+            int len = 0;
+            string details = JsonConvert.SerializeObject(data);
             BinaryFormatter bf = new BinaryFormatter();
             byte[] d;
             using (MemoryStream ms = new MemoryStream())
             {
-                bf.Serialize(ms, data);
+                bf.Serialize(ms, details);
                 d = ms.ToArray();
+                len = d.Length;
             }
             var outputStream = new MemoryStream();
             using (var gZipStream = new GZipStream(outputStream, CompressionLevel.Optimal, false))
@@ -144,8 +117,36 @@ namespace SensorData.Services
 
             return outputStream;
         }
+
+        public async Task<BaseResponse<RegistrationResponse>> PostRegister(RegisterModel register)
+        {
+            try
+            {
+                var response = await HttpPOSTCall(Config.RegisterUrl, register);
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = response.Content.ReadAsStringAsync().Result;
+                    return new BaseResponse<RegistrationResponse>.Success
+                    {
+                        data = JsonConvert.DeserializeObject<RegistrationResponse>(result)
+                    };
+                }
+                return JsonConvert.DeserializeObject<BaseResponse<RegistrationResponse>.Error>(response.Content.ReadAsStringAsync().Result);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<RegistrationResponse>.Error
+                {
+                    statusCode = System.Net.HttpStatusCode.InternalServerError,
+                    message = ex.Message
+                };
+            }
+        }
     }
 
+    /// <summary>
+    /// Not required class as of now cause the basic compression class is working
+    /// </summary>
     public class JsonContent : HttpContent
     {
         private JsonSerializer serializer { get; }

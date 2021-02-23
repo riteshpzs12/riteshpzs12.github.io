@@ -13,6 +13,7 @@ namespace SensorData.Models
 
     public class MasterDataModel
     {
+        public string SessionId { get; set; }
         public Dictionary<long, Xamarin.Essentials.CompassData> CompassData { get; set; }
         public Dictionary<long, Xamarin.Essentials.AccelerometerData> AccelerometerData { get; set; }
         public Dictionary<long, Xamarin.Essentials.GyroscopeData> GyroscopeData { get; set; }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using SensorData.Models;
 using SensorData.Services;
 using Xamarin.Forms;
 
@@ -13,7 +15,6 @@ namespace SensorData.ViewModel.Registrations
     public class RegistrationViewModel : BaseViewModel
     {
         readonly INavService _navservice;
-        //readonly IFileOperation _fileOperation;
         readonly ICache _cache;
         List<Permission> permissions = new List<Permission>()
         {
@@ -24,16 +25,49 @@ namespace SensorData.ViewModel.Registrations
         public RegistrationViewModel(INavService navservice, ICache cache)
         {
             _cache = cache;
-            //_fileOperation = fileOperation;
             _navservice = navservice;
-            StartConsent = new Command(ResolveConsent);
             RegisterUser = new Command(Register);
+            ConsentGiven = new Command(() => IsConsentVisible = false);
+            ListItems.Add(new Consents()
+            {
+                Id = 1,
+                Description = "Your Device Sensor Data",
+                Allowed = true
+            });
+            ListItems.Add(new Consents()
+            {
+                Id = 2,
+                Description = "Your Device Model Name",
+                Allowed = true
+            });
         }
 
         private void Register()
         {
             //TODO Do the API call take the response save the installation token
-            _navservice.Goto(new NavigationPage(new SensorData.Views.FirstPage()));
+            RegisterModel register = new RegisterModel()
+            {
+                Name = Name,
+                Contact = EmailorPhone,
+                DeviceId = App.DeviceId,
+                DeviceModel = Xamarin.Essentials.DeviceInfo.Manufacturer + ", " + Xamarin.Essentials.DeviceInfo.Model,
+                Password = PassWord,
+                Consent = GetConsent(),
+                DeviceType = Xamarin.Essentials.DeviceInfo.Platform + "  " + Xamarin.Essentials.DeviceInfo.Idiom
+            };
+            //_navservice.ShowDialog("Consent", ListItems[0].Allowed.ToString() + "//////////////" + ListItems[1].Allowed.ToString());
+
+        }
+
+        private string GetConsent()
+        {
+            string res = "";
+            //ListItems.All(i => res += i.Allowed ? "1" : "0")
+            foreach (Consents consents in ListItems)
+            {
+                res += consents.Allowed ? "1" : "0";
+            };
+            return res;
         }
 
         internal async void ResolvePermissions()
@@ -83,15 +117,6 @@ namespace SensorData.ViewModel.Registrations
             }
         }
 
-        private void ResolveConsent()
-        {
-            ///Show the consents popup
-            ///With fields options like
-            ///1. Sensor data
-            ///2. Device Model Name
-            ///3. TODO
-        }
-
         private string _name = "";
         public string Name
         {
@@ -117,6 +142,39 @@ namespace SensorData.ViewModel.Registrations
             {
                 _passWord = value;
                 OnPropertyChanged("PassWord");
+            }
+        }
+
+        private bool _isConsentVisible = false;
+        public bool IsConsentVisible
+        {
+            get
+            {
+                return _isConsentVisible;
+            }
+            set
+            {
+                _isConsentVisible = value;
+                OnPropertyChanged("IsConsentVisible");
+            }
+        }
+
+        internal void ShowConsent()
+        {
+            IsConsentVisible = true;
+        }
+
+        private ObservableCollection<Consents> _listItems = new ObservableCollection<Consents>();
+        public ObservableCollection<Consents> ListItems
+        {
+            get
+            {
+                return _listItems;
+            }
+            set
+            {
+                _listItems = value;
+                OnPropertyChanged("ListItems");
             }
         }
 
@@ -190,7 +248,14 @@ namespace SensorData.ViewModel.Registrations
             return res;
         }
 
-        public ICommand StartConsent { get; private set; }
         public ICommand RegisterUser { get; private set; }
+        public ICommand ConsentGiven { get; private set; }
+    }
+
+    public class Consents
+    {
+        public int Id { get; set; }
+        public bool Allowed { get; set; }
+        public string Description { get; set; }
     }
 }
