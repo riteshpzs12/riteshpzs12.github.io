@@ -76,6 +76,7 @@
     <Compile Include="SwipeWithCustomFields.cs" />
     <Compile Include="Renderer\CustomEntryRenderer.cs" />
     <Compile Include="Services\FileOpiOS.cs" />
+    <Compile Include="Services\UtilityIOS.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

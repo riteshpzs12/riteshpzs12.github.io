@@ -69,6 +69,7 @@
     <Compile Include="TapWithPositionGestureEffect.cs" />
     <Compile Include="SwipeWithCustomFields.cs" />
     <Compile Include="Renderer\CustomEntryRenderer.cs" />
+    <Compile Include="Services\UtilityDroid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -104,6 +105,7 @@
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
     <Folder Include="Renderer\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SensorData\SensorData.csproj">

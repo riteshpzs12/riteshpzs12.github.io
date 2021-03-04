@@ -16,23 +16,6 @@ namespace SensorData.Droid
         public override void OnCreate()
         {
             base.OnCreate();
-            if (string.IsNullOrEmpty(App.DeviceId))
-            {
-                string id = Android.OS.Build.GetSerial();
-                if (string.IsNullOrWhiteSpace(id) || id == Build.Unknown || id == "0")
-                {
-                    try
-                    {
-                        var context = Android.App.Application.Context;
-                        id = Secure.GetString(context.ContentResolver, Secure.AndroidId);
-                    }
-                    catch (Exception ex)
-                    {
-                        id = "UNKNOWN";
-                    }
-                }
-                App.DeviceId = id;
-            } 
         }
     }
 }

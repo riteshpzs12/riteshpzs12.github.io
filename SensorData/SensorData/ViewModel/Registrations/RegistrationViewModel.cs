@@ -4,10 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 using SensorData.Models;
 using SensorData.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SensorData.ViewModel.Registrations
@@ -17,17 +16,14 @@ namespace SensorData.ViewModel.Registrations
         readonly INavService _navservice;
         readonly ICache _cache;
         readonly IWebHelper _webHelper;
-        List<Permission> permissions = new List<Permission>()
-        {
-            Permission.Storage,
-            Permission.Sensors
-        };
+        readonly IUtility _utility;
 
         public RegistrationViewModel(INavService navservice, ICache cache, IWebHelper webHelper)
         {
             _cache = cache;
             _navservice = navservice;
             _webHelper = webHelper;
+            _utility = DependencyService.Get<IUtility>();
 
             RegisterUser = new Command(Register);
             ConsentGiven = new Command(() => IsConsentVisible = false);
@@ -48,6 +44,12 @@ namespace SensorData.ViewModel.Registrations
         private async void Register()
         {
             //TODO Do the API call take the response save the installation token
+            if(await Permissions.CheckStatusAsync<Permissions.Phone>() == PermissionStatus.Granted)
+                _utility.GetAppId();
+            else
+            {
+                //will think the else one
+            }
             RegisterModel register = new RegisterModel()
             {
                 Name = Name,
@@ -117,28 +119,49 @@ namespace SensorData.ViewModel.Registrations
             {
                 if (Device.RuntimePlatform == Device.Android)
                 {
-                    var Sensorstatus = await CrossPermissions.Current.CheckPermissionStatusAsync<SensorsPermission>();
+                    var Sensorstatus = await Permissions.CheckStatusAsync<Permissions.Sensors>();
                     if (Sensorstatus != PermissionStatus.Granted)
                     {
-                        if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Sensors))
+
+                        if (await Permissions.RequestAsync<Permissions.Sensors>() != PermissionStatus.Granted)
                         {
                             //we can have a custom alert message here
                             await App.Current.MainPage.DisplayAlert("Need Permission", "Need Sensor Permission", "Ok");
+                            await Permissions.RequestAsync<Permissions.Sensors>();
                         }
-
-                        Sensorstatus = await CrossPermissions.Current.RequestPermissionAsync<SensorsPermission>();
                     }
 
-                    var Storagestatus = await CrossPermissions.Current.CheckPermissionStatusAsync<StoragePermission>();
-                    if (Storagestatus != PermissionStatus.Granted)
+                    var Phonestatus = await Permissions.CheckStatusAsync<Permissions.Phone>();
+                    if (Sensorstatus != PermissionStatus.Granted)
                     {
-                        if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Storage))
+                        if (await Permissions.RequestAsync<Permissions.Phone>() != PermissionStatus.Granted)
                         {
                             //we can have a custom alert message here
-                            await App.Current.MainPage.DisplayAlert("Need Permission", "Need Storage Permission", "Ok");
+                            await App.Current.MainPage.DisplayAlert("Need Permission", "Need Phone Status Permission", "Ok");
+                            await Permissions.RequestAsync<Permissions.Phone>();
                         }
+                    }
 
-                        Storagestatus = await CrossPermissions.Current.RequestPermissionAsync<StoragePermission>();
+                    var Storagestatus = await Permissions.RequestAsync<Permissions.StorageWrite>();
+                    if (Storagestatus != PermissionStatus.Granted)
+                    {
+                        if (await Permissions.RequestAsync<Permissions.StorageWrite>() != PermissionStatus.Granted)
+                        {
+                            //we can have a custom alert message here
+                            await App.Current.MainPage.DisplayAlert("Need Permission", "Need Storage Write Permission", "Ok");
+                            await Permissions.RequestAsync<Permissions.StorageWrite>();
+                        }
+                    }
+
+                    var Storagereadstatus = await Permissions.RequestAsync<Permissions.StorageRead>();
+                    if (Storagereadstatus != PermissionStatus.Granted)
+                    {
+                        if (await Permissions.RequestAsync<Permissions.StorageRead>() != PermissionStatus.Granted)
+                        {
+                            //we can have a custom alert message here
+                            await App.Current.MainPage.DisplayAlert("Need Permission", "Need Storage Read Permission", "Ok");
+                            await Permissions.RequestAsync<Permissions.StorageRead>();
+                        }
                     }
 
                     //Will handle this scenarioss..

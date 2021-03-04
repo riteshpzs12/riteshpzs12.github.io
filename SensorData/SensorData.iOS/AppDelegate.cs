@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using SensorData.Services;
 using UIKit;
 
 namespace SensorData.iOS
@@ -30,7 +31,6 @@ namespace SensorData.iOS
         public override void OnActivated(UIApplication uiApplication)
         {
             base.OnActivated(uiApplication);
-            App.DeviceId = UIKit.UIDevice.CurrentDevice.IdentifierForVendor.AsString();
         }
     }
 }
