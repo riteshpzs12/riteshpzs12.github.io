@@ -13,6 +13,7 @@ namespace SensorData.ViewModel.Registrations
             container.Register<INavService, NavService>();
             container.Register<IFileOperation, FileOperation>();
             container.Register<ICache, CacheImpl>();
+            container.Register<IWebHelper, WebHelper>();
             return container;
         }
     }

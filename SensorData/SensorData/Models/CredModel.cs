@@ -50,11 +50,23 @@ namespace SensorData.Models
     {
         [JsonProperty("userId")]
         public int UID { get;set; }
+
+        [JsonProperty("sessionId")]
+        public string sessionId { get; set; }
+
+        [JsonProperty("SessionStart")]
+        public string CreatedOn { get; set; }
+
+        [JsonProperty("CustomMessage")]
+        public string Greet { get; set; }
     }
 
     public class RegistrationResponse : BaseResponse<RegistrationResponse>
     {
         [JsonProperty("userId")]
         public int UID { get; set; }
+
+        [JsonProperty("InstallationToken")]
+        public string InstallToken { get; set; }
     }
 }

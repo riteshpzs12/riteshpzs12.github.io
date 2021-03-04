@@ -172,7 +172,7 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
         /// <param name="testTry"></param>
         private void Reset(TestTry testTry)
         {
-            if (testTry.CustomField1 == "Up")
+            if (testTry.CustomField1 == "Up" && IsStatVisible)
             {
                 IsStatVisible = false;
                 StatDisplayModels.Clear();

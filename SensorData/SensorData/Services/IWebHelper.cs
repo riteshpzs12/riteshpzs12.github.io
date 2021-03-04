@@ -9,7 +9,7 @@ namespace SensorData.Services
     {
         Task<BaseResponse<LoginResponse>> PostLoginCall(CredModel data);
 
-        Task SendSensorData<T>(Dictionary<long, T> data, SensorTypeEnum sensorTypeEnum);
+        Task<bool> SendSensorData<T>(Dictionary<long, T> data, SensorTypeEnum sensorTypeEnum);
 
         Task<BaseResponse<RegistrationResponse>> PostRegister(RegisterModel register);
     }

@@ -1,6 +1,7 @@
 ﻿using SensorData.Models;
 using SensorData.Services;
 using SensorData.Views;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SensorData
@@ -26,10 +27,10 @@ namespace SensorData
         /// <summary>
         /// Checks and loads the proper landing page
         /// </summary>
-        private void CheckCacheAndLoad()
+        private async void CheckCacheAndLoad()
         {
             var cred = cache.Get<CredModel>(Config.CredCacheKey);
-            var token = cache.Get<string>(Config.InstallationToken);
+            var token = await Xamarin.Essentials.SecureStorage.GetAsync(Config.InstallationToken);
             if (cred != null)
             {
                 //Load login screen with the credential filled, auto popup biometrics if enabled

@@ -37,7 +37,10 @@ namespace SensorData.Views
             }
             if (button == 0.0)
                 button = consent.Width;
-            List.HeightRequest = (ViewModel.ListItems.Count * 55) * 100;
+            if (Device.RuntimePlatform == Device.Android)
+                List.HeightRequest = ((ViewModel.ListItems.Count + 1) * 75) + 50;
+            else
+                List.HeightRequest = ((ViewModel.ListItems.Count + 1) * 75) + 20;
         }
 
         void Entry_Focused(System.Object sender, Xamarin.Forms.FocusEventArgs e)

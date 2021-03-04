@@ -64,13 +64,15 @@
                     </StackLayout>
                 </ScrollView>
             </StackLayout>
-            <ContentView AbsoluteLayout.LayoutBounds="0,.5,1,.5" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsConsentVisible}" BackgroundColor="Transparent">
+            <ContentView VerticalOptions="Fill" AbsoluteLayout.LayoutBounds="0,.5,1,.5" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding IsConsentVisible}" BackgroundColor="Transparent">
                 <Frame Padding="0" x:Name="List" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="White" Margin="20,0,20,0" CornerRadius="15" HasShadow="False">
-                    <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Padding="0" Margin="0">
+                    <Grid HorizontalOptions="Center" VerticalOptions="Fill">
                         <ListView HorizontalOptions="Center" ItemsSource="{Binding ListItems, Mode=TwoWay}" VerticalScrollBarVisibility="Never"
-                                  SeparatorVisibility="None" VerticalOptions="Fill" BackgroundColor="White" Margin="10">
+                                  SeparatorVisibility="None" VerticalOptions="Center" BackgroundColor="White" Margin="10">
                             <ListView.Header>
-                                <Label Text="User Consent" FontSize="22" TextColor="Black" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                <Grid Margin="5">
+                                    <Label Text="User Consent" FontSize="22" TextColor="Black" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+                                </Grid>
                             </ListView.Header>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -85,11 +87,11 @@
                             <ListView.Footer>
                                 <StackLayout BackgroundColor="Transparent" Margin="10,20,10,20" Spacing="10">
                                     <Label VerticalOptions="Center" Text="We will Collect these data solely for research purposes." TextColor="Black" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
-                                    <Button Text="OK" Command="{Binding ConsentGiven}" HorizontalOptions="Center" VerticalOptions="End"/>
+                                    <Button Text="OK" Padding="20,0,20,0" Command="{Binding ConsentGiven}" HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="LightSkyBlue" Opacity=".8" CornerRadius="10"/>
                                 </StackLayout>
                             </ListView.Footer>
                         </ListView>
-                    </StackLayout>
+                    </Grid>
                 </Frame>
             </ContentView>
         </AbsoluteLayout>

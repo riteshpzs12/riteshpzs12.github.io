@@ -16,16 +16,19 @@ namespace SensorData.ViewModel.Registrations
     {
         readonly INavService _navservice;
         readonly ICache _cache;
+        readonly IWebHelper _webHelper;
         List<Permission> permissions = new List<Permission>()
         {
             Permission.Storage,
             Permission.Sensors
         };
 
-        public RegistrationViewModel(INavService navservice, ICache cache)
+        public RegistrationViewModel(INavService navservice, ICache cache, IWebHelper webHelper)
         {
             _cache = cache;
             _navservice = navservice;
+            _webHelper = webHelper;
+
             RegisterUser = new Command(Register);
             ConsentGiven = new Command(() => IsConsentVisible = false);
             ListItems.Add(new Consents()
@@ -42,7 +45,7 @@ namespace SensorData.ViewModel.Registrations
             });
         }
 
-        private void Register()
+        private async void Register()
         {
             //TODO Do the API call take the response save the installation token
             RegisterModel register = new RegisterModel()
@@ -55,14 +58,52 @@ namespace SensorData.ViewModel.Registrations
                 Consent = GetConsent(),
                 DeviceType = Xamarin.Essentials.DeviceInfo.Platform + "  " + Xamarin.Essentials.DeviceInfo.Idiom
             };
-            //_navservice.ShowDialog("Consent", ListItems[0].Allowed.ToString() + "//////////////" + ListItems[1].Allowed.ToString());
 
+            //Commented just for development purpose
+            //var response = await _webHelper.PostRegister(register);
+
+            //remove this post development
+            var response = new BaseResponse<RegistrationResponse>.Success()
+            {
+                data = new RegistrationResponse()
+                {
+                    InstallToken = "MockInstallToken",
+                    UID = 23323
+                }
+            };
+            switch (response)
+            {
+                case BaseResponse<RegistrationResponse>.Success s:
+                    SaveToken(s.data.InstallToken);
+                    _navservice.Goto(new SensorData.Views.FirstPage(new CredModel
+                    {
+                        deviceId = App.DeviceId,
+                        password = PassWord,
+                        username = Name
+                    }));
+                    break;
+                //Commented just for development purpose
+                //case BaseResponse<RegistrationResponse>.Error e:
+                //    var res = await _navservice.ShowInteractiveDialogAsync("Sorry", "Sorry we are experiencing some trouble. Please try again " +
+                //        "after sometime or Contact us", "Call Us", "Cancel");
+                //    if (res)
+                //    {
+                //        //Open the phone dialer 
+                //    }
+                //    break;
+                default:
+                    break;
+            }
+        }
+
+        private void SaveToken(string installToken)
+        {
+            Xamarin.Essentials.SecureStorage.SetAsync(Config.InstallationToken, installToken);
         }
 
         private string GetConsent()
         {
             string res = "";
-            //ListItems.All(i => res += i.Allowed ? "1" : "0")
             foreach (Consents consents in ListItems)
             {
                 res += consents.Allowed ? "1" : "0";

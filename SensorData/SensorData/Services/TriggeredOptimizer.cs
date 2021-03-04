@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Timers;
 using SensorData.Models;
+using Xamarin.Essentials;
 
 namespace SensorData.Services
 {
@@ -8,7 +11,7 @@ namespace SensorData.Services
     {
         private Timer timer { get; set; }
         private ICache _cache { get; set; }
-        IWebHelper webHelper;
+        readonly IWebHelper webHelper;
 
         public TriggeredOptimizer(ICache cache)
         {
@@ -27,7 +30,7 @@ namespace SensorData.Services
             }
         }
 
-        public void Stop()
+        public async void Stop()
         {
             if(timer.Enabled)
             {
@@ -43,14 +46,16 @@ namespace SensorData.Services
                 var data = App.sensorService.GetData();
                 App.sensorService.FlushData();
                 var d = _cache.Get<MasterDataModel>(Config.CacheDataKey);
-                //if (d != null)
-                //{
-                //    await webHelper.SendSensorData<AccelerometerData>(data.AccelerometerData, SensorTypeEnum.Accelerometer);
-                //    await webHelper.SendSensorData<MagnetometerData>(data.MagnetometerData, SensorTypeEnum.Magnetometer);
-                //    await webHelper.SendSensorData<OrientationSensorData>(data.OrientationSensorData, SensorTypeEnum.Orientation);
-                //    await webHelper.SendSensorData<GyroscopeData>(data.GyroscopeData, SensorTypeEnum.Gyroscope);
-                //    await webHelper.SendSensorData<CompassData>(data.CompassData, SensorTypeEnum.Compass);
-                //}
+                List<bool> done = new List<bool>();
+                if (d != null)
+                {
+                    done.Add(await webHelper.SendSensorData<AccelerometerData>(data.AccelerometerData, SensorTypeEnum.Accelerometer));
+                    done.Add(await webHelper.SendSensorData<MagnetometerData>(data.MagnetometerData, SensorTypeEnum.Magnetometer));
+                    done.Add(await webHelper.SendSensorData<OrientationSensorData>(data.OrientationSensorData, SensorTypeEnum.Orientation));
+                    done.Add(await webHelper.SendSensorData<GyroscopeData>(data.GyroscopeData, SensorTypeEnum.Gyroscope));
+                    done.Add(await webHelper.SendSensorData<CompassData>(data.CompassData, SensorTypeEnum.Compass));
+                    await App.Current.MainPage.DisplayAlert("Results", string.Join(", ", done), "Ok");
+                }
                 _cache.Add<MasterDataModel>(data, Config.CacheDataKey);
             }
             catch (Exception ex)

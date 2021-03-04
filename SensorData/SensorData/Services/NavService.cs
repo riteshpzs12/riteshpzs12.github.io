@@ -5,7 +5,7 @@ namespace SensorData.Services
 {
     public class NavService : INavService
     {
-        public Application ApplicationContext { get; set; }
+        //public Application ApplicationContext { get; set; }
 
         public NavService()
         {
@@ -23,7 +23,7 @@ namespace SensorData.Services
 
         public void OpenLandingPagePostLogin(Page page)
         {
-            ApplicationContext.MainPage = new NavigationPage(page);
+            App.Current.MainPage = new NavigationPage(page);
         }
 
         public void ShowDialog(string title, string description)

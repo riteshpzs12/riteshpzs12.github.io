@@ -25,8 +25,8 @@ namespace SensorData.ViewModel.FirstPage
             //Show the fingerprint thing.. will see about the user consent and permission thing
         }
 
-        ICache _cache;
-        IWebHelper _webHelper;
+        readonly ICache _cache;
+        readonly IWebHelper _webHelper;
 
         public FirstPageViewModel(INavService navService, ICache cache, IWebHelper webHelper)
         {
@@ -62,7 +62,7 @@ namespace SensorData.ViewModel.FirstPage
         {
             if(!string.IsNullOrEmpty(Uname) && !string.IsNullOrEmpty(PassWord))
             {
-                if (await CrossFingerprint.Current.IsAvailableAsync(false))
+                if (await CrossFingerprint.Current.IsAvailableAsync(true))
                 {
                     AuthenticationRequestConfiguration config = new AuthenticationRequestConfiguration("Wait", "Let me check who are you");
                     if ((await CrossFingerprint.Current.AuthenticateAsync(config)).Authenticated)
@@ -106,26 +106,38 @@ namespace SensorData.ViewModel.FirstPage
         /// </summary>
         private async void Login()
         {
-            //var l = await _webHelper.TestCompression();
-            //_sensorService.StartCapture();
             CredModel cred = new CredModel()
             {
                 deviceId = App.DeviceId.Trim(),
                 username = Uname.Trim(),
                 password = PassWord.Trim()
             };
-            var res = await _webHelper.PostLoginCall(cred);
 
+            //Commented just for development purpose
+            //var res = await _webHelper.PostLoginCall(cred);
+
+            //remove this post development
+            var res = new BaseResponse<LoginResponse>.Success()
+            {
+                data = new LoginResponse()
+                {
+                     sessionId = "MockSessionId",
+                     CreatedOn = DateTime.Now.ToString(),
+                     Greet = "Hey Hello",
+                     UID = 123
+                }
+            };
             switch (res)
             {
                 case BaseResponse<LoginResponse>.Success s:
-                    SaveDetails(cred);
+                    SaveDetails(cred, s.data);
                     //DisposeSubscribers();
                     _navService.OpenLandingPagePostLogin(new SensorData.Views.PrecisionPredictionTapPage());
                     break;
-                case BaseResponse<LoginResponse>.Error e:
-                    CheckAndDisplayProperAlert(e);
-                    break;
+                //Commented just for development purpose
+                //case BaseResponse<LoginResponse>.Error e:
+                //    CheckAndDisplayProperAlert(e);
+                //    break;
                  default:
                     break;
             }
@@ -136,9 +148,10 @@ namespace SensorData.ViewModel.FirstPage
         /// Saves the credentials data based on the response
         /// </summary>
         /// <param name="cred"></param>
-        private void SaveDetails(CredModel cred)
+        private void SaveDetails(CredModel cred, LoginResponse data)
         {
             _cache.Add<CredModel>(cred, Config.CredCacheKey);
+            _cache.Add<string>(data.sessionId, Config.SessionDataKey);
         }
 
         /// <summary>
