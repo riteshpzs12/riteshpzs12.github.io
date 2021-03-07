@@ -145,8 +145,8 @@ namespace SensorData.ViewModel.PrecisionPredictionTapPage
             Random random = new Random();
             if(XTop!=-1 && YTop!=-1)
             {
-                XLocationFactor = (random.NextDouble() * (.9) + .05)*XTop;
-                YLocationFactor = (random.NextDouble() * (.9) + .05)*YTop;
+                XLocationFactor = random.Next(90) * (XTop / 100);
+                YLocationFactor = random.Next(90) * (YTop / 100);
             }
         }
 

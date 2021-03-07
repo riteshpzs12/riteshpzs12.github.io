@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SensorData.Views.FirstPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SensorData.Views.FirstPage" BackgroundImageSource="Registration1.jpg">
     <!--This is actually the Login page -->
     <!--UI improvement and correction of biometrics popup (the popup should open by default if cache has login data)-->
     <ContentPage.Content>

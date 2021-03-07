@@ -4,7 +4,6 @@ using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using SensorData.Models;
 using SensorData.Services;
-using SensorData.ShinySensor.Sensors_XamEssential;
 using Xamarin.Forms;
 
 namespace SensorData.ViewModel.FirstPage
@@ -108,7 +107,7 @@ namespace SensorData.ViewModel.FirstPage
         {
             CredModel cred = new CredModel()
             {
-                deviceId = App.DeviceId.Trim(),
+                deviceId = "",
                 username = Uname.Trim(),
                 password = PassWord.Trim()
             };
@@ -132,7 +131,7 @@ namespace SensorData.ViewModel.FirstPage
                 case BaseResponse<LoginResponse>.Success s:
                     SaveDetails(cred, s.data);
                     //DisposeSubscribers();
-                    _navService.OpenLandingPagePostLogin(new SensorData.Views.PrecisionPredictionTapPage());
+                    _navService.OpenLandingPagePostLogin(new SensorData.Views.LandingPages());
                     break;
                 //Commented just for development purpose
                 //case BaseResponse<LoginResponse>.Error e:

@@ -12,7 +12,7 @@ namespace SensorData.Views
             InitializeComponent();
             IIoCContainer container = Builder.Build();
             ViewModel = container.Resolve<IBaseViewModel>() as FirstPageViewModel;
-
+            NavigationPage.SetHasNavigationBar(this, false);
             if(cred!=null)
             {
                 ViewModel.FillDetails(cred);

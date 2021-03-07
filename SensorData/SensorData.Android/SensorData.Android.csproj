@@ -70,6 +70,7 @@
     <Compile Include="SwipeWithCustomFields.cs" />
     <Compile Include="Renderer\CustomEntryRenderer.cs" />
     <Compile Include="Services\UtilityDroid.cs" />
+    <Compile Include="Renderer\TabPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -98,6 +99,10 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\Registration2.jpg">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\tap_It.png">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

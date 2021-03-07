@@ -32,5 +32,6 @@
     <Folder Include="ViewModel\PrecisionPredictionTapPage\" />
     <Folder Include="ViewModel\Registrations\" />
     <Folder Include="ShinySensor\Sensors_XamEssential\" />
+    <Folder Include="ViewModel\ScalePrecision\" />
   </ItemGroup>
 </Project>

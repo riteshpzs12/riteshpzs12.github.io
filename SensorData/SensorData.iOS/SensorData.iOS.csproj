@@ -77,6 +77,7 @@
     <Compile Include="Renderer\CustomEntryRenderer.cs" />
     <Compile Include="Services\FileOpiOS.cs" />
     <Compile Include="Services\UtilityIOS.cs" />
+    <Compile Include="Renderer\TabPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\Registration1.jpg" />
     <BundleResource Include="Resources\Registration2.jpg" />
+    <BundleResource Include="Resources\tap_It.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

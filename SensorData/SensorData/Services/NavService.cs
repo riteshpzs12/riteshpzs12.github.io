@@ -17,7 +17,7 @@ namespace SensorData.Services
             if (t>0)
             {
                 if (App.Current.MainPage.Navigation.NavigationStack[t-1] != page)
-                    App.Current.MainPage.Navigation.PushAsync(page);
+                    App.Current.MainPage.Navigation.PushAsync(new NavigationPage(page));
             }
         }
 

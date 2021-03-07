@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SensorData.Views.ScalePrecision"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             ios:Page.UseSafeArea="true">
+    <ContentPage.Resources>
+        <Style x:Key="BasicLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="Body"/>
+            <Setter Property="TextColor" Value="DarkGray"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid Padding="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="60*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" VerticalOptions="StartAndExpand">
+                <Label Text="Test Your scale Precision" HorizontalOptions="Center" FontSize="Large" TextColor="Black"/>
+                <Label Text="Assume the length of the line in upper box and try to draw in the bigger box below as per the Scaling factor given. Tap Done find out your accuracy."
+                       HorizontalTextAlignment="Center" LineBreakMode="WordWrap" LineHeight="1.2" Style="{StaticResource BasicLabel}"/>
+            </StackLayout>
+
+            <!--Top frame, the one where the actual line is shown-->
+            <Frame Grid.Row="1" BackgroundColor="LightCyan" x:Name="CheckParent" BorderColor="Blue" CornerRadius="0" Padding="20,0,20,0" Margin="10" HasShadow="False">
+                <BoxView HeightRequest="2" WidthRequest="{Binding TopLine}" BackgroundColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
+            </Frame>
+
+            <!--{Binding TopLine}--><!--{Binding BottomLine}-->
+            <!--Bottom frame, the one where user tries to replicate the approx postion of the dot-->
+            <Frame x:Name="PlayTest" Grid.Row="2" BackgroundColor="LightCyan" BorderColor="Black" CornerRadius="0" HasShadow="False" Padding="10" Margin="10" IsClippedToBounds="True">
+                <StackLayout Orientation="Vertical" Spacing="20">
+                    <Frame BorderColor="Black" CornerRadius="0" HasShadow="False" Padding="5,10,5,10" BackgroundColor="White" >
+                        <BoxView Margin="5" WidthRequest="{Binding BottomLine}" HeightRequest="2" BackgroundColor="Black" VerticalOptions="Center" HorizontalOptions="Start"/>
+                    </Frame>
+                    <Frame BorderColor="Black" CornerRadius="0" HasShadow="False" BackgroundColor="White" VerticalOptions="StartAndExpand">
+                        <Grid RowSpacing="15">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30*"/>
+                                <RowDefinition Height="30*"/>
+                                <RowDefinition Height="40*"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Text="{Binding ScaleInstruction}" Style="{StaticResource BasicLabel}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                            <Slider x:Name="slider" Value="150" ValueChanged="slider_ValueChanged" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center" Maximum="300" WidthRequest="200" Minimum="0" ThumbColor="LightSeaGreen"/>
+                            <Button Grid.Row="2" BackgroundColor="Beige" CornerRadius="10" Padding="10" Text="Done" VerticalOptions="Center" HorizontalOptions="Center" Command="{Binding ResultCommand}"/>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+            </Frame>
+
+            <!--Top Slider, To show the stats of the play
+                TODO : Need to add animation, UI change, dont show upto 10 decimal just upto 2
+            -->
+            <!--<AbsoluteLayout>
+             <ContentView AbsoluteLayout.LayoutBounds="0,0,1,2.5" AbsoluteLayout.LayoutFlags="All" BackgroundColor="Transparent">                 
+                <Frame x:Name="StatList" BackgroundColor="Azure" IsVisible="{Binding IsStatVisible}" Padding="0" CornerRadius="0" HasShadow="False" VerticalOptions="Fill">
+                    <StackLayout>
+                        <ListView HasUnevenRows="True" SeparatorVisibility="None" VerticalScrollBarVisibility="Never" VerticalOptions="Start" HorizontalOptions="Center" ItemsSource="{Binding StatDisplayModels,Mode=TwoWay}" Margin="10" BackgroundColor="Azure">
+                            <ListView.Header>
+                                <StackLayout>
+                                    <Label Text="Statistics" HorizontalOptions="Center" VerticalOptions="Start" FontSize="20" FontAttributes="Bold" Margin="0,0,0,15" TextColor="Black"/>
+                                </StackLayout>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid Margin="5,0,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="4.5*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="4.5*"/>
+                                            </Grid.ColumnDefinitions>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,3,0,3">
+                                            <Label Text="{Binding Key}" Style="{StaticResource BasicLabel}" FontSize="14" Grid.Column="0" HorizontalOptions="Start"/>
+                                            <Label Text=" : " TextColor="Black" Grid.Column="1" HorizontalOptions="Center" FontSize="Body"/>
+                                            <Label Text="{Binding Value}" Style="{StaticResource BasicLabel}" FontSize="14" Grid.Column="2" HorizontalOptions="Start"/>
+                                        
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.Footer>
+                                <StackLayout>
+                                    <Label Text="Swipe up to close the stats and continue playing" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" FontSize="12" Margin="0,25,0,0" FontAttributes="Italic" TextColor="DeepSkyBlue"/>
+                                </StackLayout>
+                            </ListView.Footer>
+                        </ListView>
+                    </StackLayout>
+                </Frame>
+            </ContentView>
+            </AbsoluteLayout>-->
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
